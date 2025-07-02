@@ -40,6 +40,7 @@
   "egresos": "Egresos",
   "seleccionar_todos": "Seleccionar todos",
   "borrar_seleccionados": "Borrar seleccionados",
+  "acciones": "Acciones",
 
   "configuracion": "Configuración",
   "idioma": "Idioma",
@@ -85,9 +86,13 @@
   "medio_utilizado": "Medio utilizado",
   "medio_pago": "Medio de pago",
   "cantidad": "Cantidad",
-  "numero_doc": "Número de documento",
+  "numero_doc": "N° documento",
+  "numero_documento": "N° documento",
   "descripcion": "Descripción",
   "total": "Total",
+  "seleccionar_tipo": "Seleccionar tipo",
+  "seleccionar_categoria": "Seleccionar categoría",
+  "seleccionar_medio": "Seleccionar medio",
 
   "error_leyendo_archivo": "Error leyendo archivo",
   "encabezado_no_encontrado": "No encontré la fila de encabezados (fecha/total)",

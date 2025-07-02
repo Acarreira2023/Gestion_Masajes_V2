@@ -38,6 +38,7 @@
   "egresos": "Expenses",
   "seleccionar_todos": "Select all",
   "borrar_seleccionados": "Delete selected",
+  "acciones": "Actions",
 
   "configuracion": "Settings",
   "idioma": "Language",
@@ -84,8 +85,12 @@
   "medio_pago": "Payment method",
   "cantidad": "Quantity",
   "numero_doc": "Document number",
+  "numero_documento": "Document number",
   "descripcion": "Description",
   "total": "Total",
+  "seleccionar_tipo": "Select type",
+  "seleccionar_categoria": "Select category",
+  "seleccionar_medio": "Select payment method",
 
   "error_leyendo_archivo": "Error reading file",
   "encabezado_no_encontrado": "Header row not found (date/total)",

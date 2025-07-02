@@ -38,6 +38,7 @@
   "egresos": "Despesas",
   "seleccionar_todos": "Selecionar todos",
   "borrar_seleccionados": "Excluir selecionados",
+  "acciones": "Ações",
 
   "configuracion": "Configurações",
   "idioma": "Idioma",
@@ -84,8 +85,12 @@
   "medio_pago": "Método de pagamento",
   "cantidad": "Quantidade",
   "numero_doc": "Número do documento",
+  "numero_documento": "Número do documento",
   "descripcion": "Descrição",
   "total": "Total",
+  "seleccionar_tipo": "Selecionar tipo",
+  "seleccionar_categoria": "Selecionar categoria",
+  "seleccionar_medio": "Selecionar método de pagamento",
 
   "error_leyendo_archivo": "Erro ao ler arquivo",
   "encabezado_no_encontrado": "Cabeçalho não encontrado (data/total)",
