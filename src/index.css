@@ -1,0 +1,95 @@
+/*src/index.css*/
+/* ---------- RESET BÁSICO ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  font-size: var(--font-size);
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- VARIABLES GLOBALES ---------- */
+:root {
+  --radius: 4px;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --button-text: #ffffff;
+  --font-base: 'Segoe UI', sans-serif;
+  --font-size: 1rem;
+}
+
+/* ---------- TEMAS RELAJANTES (por clase en el <body>) ---------- */
+body.tema-zen {
+  --bg: #f4f4f2;
+  --bg-alt: #ffffff;
+  --fg: #333333;
+  --accent: #6ab04c;
+  --accent-hover: #4caf50;
+  --error: #c0392b;
+  --error-bg: #ffe6e6;
+}
+
+body.tema-oceano {
+  --bg: #e3f2fd;
+  --bg-alt: #ffffff;
+  --fg: #0d47a1;
+  --accent: #0288d1;
+  --accent-hover: #0277bd;
+  --error: #b71c1c;
+  --error-bg: #ffcdd2;
+}
+
+body.tema-lavanda {
+  --bg: #f9f5ff;
+  --bg-alt: #ffffff;
+  --fg: #5e35b1;
+  --accent: #9575cd;
+  --accent-hover: #7e57c2;
+  --error: #d32f2f;
+  --error-bg: #f8d7da;
+}
+
+body.tema-selva {
+  --bg: #e8f5e9;
+  --bg-alt: #ffffff;
+  --fg: #1b5e20;
+  --accent: #43a047;
+  --accent-hover: #2e7d32;
+  --error: #e53935;
+  --error-bg: #ffcdd2;
+}
+
+body.tema-piedra {
+  --bg: #ececec;
+  --bg-alt: #ffffff;
+  --fg: #2c2c2c;
+  --accent: #607d8b;
+  --accent-hover: #546e7a;
+  --error: #f44336;
+  --error-bg: #ffebee;
+}
+
+body.tema-crema {
+  --bg: #fff8e1;
+  --bg-alt: #ffffff;
+  --fg: #5d4037;
+  --accent: #ffb74d;
+  --accent-hover: #ffa726;
+  --error: #d84315;
+  --error-bg: #ffe0b2;
+}
+/*
+html, body {
+  height: 100%;
+  margin: 0;
+  background-image: url("./assets/imagenes/Login-Spa.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}*/

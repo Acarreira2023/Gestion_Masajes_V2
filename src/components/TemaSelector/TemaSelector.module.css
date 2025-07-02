@@ -1,0 +1,42 @@
+/* src/components/TemaSelector/TemaSelector.module.css*/
+
+.selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.opcion:hover {
+  border-color: var(--accent);
+}
+
+.activo {
+  border-color: var(--accent);
+  background-color: var(--bg);
+}
+
+.color {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.nombre {
+  font-size: 0.95rem;
+  color: var(--fg);
+}

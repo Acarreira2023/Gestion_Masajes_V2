@@ -1,0 +1,55 @@
+/* src/pages/Ingresos/Ingresos.module.css*/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1.5rem;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent);
+  text-align: center;
+}
+
+.pieContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.pieChart {
+  flex: 1 1 280px;
+  max-width: 320px;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.pieChart h3 {
+  margin: 0.5rem 0;
+  color: var(--fg);
+  font-size: 1.2rem;
+}
+.pieChart p {
+  font-size: 0.95rem;
+  color: var(--fg);
+  opacity: 0.8;
+}
+.pieChart:focus {
+  outline: 2px solid var(--accent-focus);
+}
+.pieChart:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+.pieChart:disabled {
+  background-color: var(--button-disabled);
+  cursor: not-allowed;
+}
+.pieChart:disabled:hover {
+  background-color: var(--button-disabled);
+}

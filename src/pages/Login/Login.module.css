@@ -1,0 +1,119 @@
+/* src/pages/Login/Login.module.css */
+
+/* 1) Pantalla completa con fondo */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 1rem;
+  font-family: var(--font-base);
+  font-size: var(--font-size);
+
+  /* mantener la imagen de fondo ajustada al contenedor */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;     /* ajusta toda la imagen dentro de la pantalla */
+  /* si prefieres que siempre llene toda la pantalla, incluso recortando:
+     background-size: cover; */
+}
+
+/* 2) Formularios sobre panel traslúcido */
+.form {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Título */
+.title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--fg);
+}
+
+/* Mensaje de error */
+.error {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: var(--error-bg);
+  color: var(--error);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Labels e inputs */
+.label {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+/* Checkbox y opciones */
+.options {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--fg);
+}
+
+.checkbox input {
+  margin-right: 0.5rem;
+}
+
+/* Botón submit */
+.submit {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #d8ba85;
+  color: #333333;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit:hover:not(:disabled) {
+  background-color: #caa970;
+}
+
+.submit:focus,
+.submit:focus-visible {
+  outline: 2px solid #b89565;
+  outline-offset: 2px;
+}
+
+.submit:active {
+  background-color: #b89565;
+}

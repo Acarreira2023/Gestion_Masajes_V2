@@ -1,0 +1,22 @@
+/* IngresoForm.module.css */
+.formulario {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+}
+.formulario h2 { text-align: center; margin-bottom:1rem; }
+.formulario label { display: block; margin-top:1rem; }
+.formulario input,
+.formulario select {
+  width: 100%; padding: .5rem; margin-top:.3rem;
+  border:1px solid var(--fg); border-radius:var(--radius);
+}
+.botonArena {
+  margin-top:1.5rem; padding:.7rem; width:100%;
+  background:var(--accent); color:#fff; border:none;
+  border-radius:var(--radius); cursor:pointer;
+  transition:background .2s;
+}
+.botonArena:hover { background:var(--accent-focus); }

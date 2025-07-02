@@ -1,0 +1,18 @@
+/* src/components/DateFilter/DateFilter.module.css */
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.modes {
+  display: flex;
+  gap: 1rem;
+}
+.range {
+  display: flex;
+  gap: 1rem;
+}
+.range > div {
+  display: flex;
+  flex-direction: column;
+}

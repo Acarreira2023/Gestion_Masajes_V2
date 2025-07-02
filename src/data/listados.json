@@ -1,0 +1,62 @@
+
+{
+  "tiposIngreso": [
+    { "value": "INMUEBLE",        "labelKey": "inmueble" },
+    { "value": "VEHICULO",        "labelKey": "vehiculo" },
+    { "value": "SUCURSALES",      "labelKey": "sucursales" },
+    { "value": "INVERSIONES",     "labelKey": "inversiones" },
+    { "value": "NORMA_MASAJES",   "labelKey": "norma_masajes" },
+    { "value": "OTROS",           "labelKey": "otros" }
+  ],
+  "inmuebles": [
+    { "value": "DPTO_CIUDAD_DE_LA_PAZ", "labelKey": "ciudad_de_la_paz" },
+    { "value": "DPTO_CORRIENTES",        "labelKey": "corrientes" },
+    { "value": "DPTO_CONESA_I",          "labelKey": "conesa_i" },
+    { "value": "DPTO_CONESA_II",         "labelKey": "conesa_ii" }
+  ],
+  "sucursales": [
+    { "value": "PRANA",                "labelKey": "prana" },
+    { "value": "EQUILIBRIO",           "labelKey": "equilibrio" },
+    { "value": "FOUR_SEASONS",         "labelKey": "four_seasons" },
+    { "value": "MASAJES_EN_DOMICILIO", "labelKey": "masajes_en_domicilio" },
+    { "value": "MASAJES_A_DOMICILIO",  "labelKey": "masajes_a_domicilio" }
+  ],
+  "mediosIngreso": [
+    { "value": "EFECTIVO",          "labelKey": "efectivo" },
+    { "value": "CHEQUE",            "labelKey": "cheque" },
+    { "value": "TARJETA_CREDITO",   "labelKey": "tarjeta_credito" },
+    { "value": "TARJETA_DEBITO",    "labelKey": "tarjeta_debito" },
+    { "value": "BILLETERA_VIRTUAL", "labelKey": "billetera_virtual" },
+    { "value": "TRANSFERENCIA",     "labelKey": "transferencia" },
+    { "value": "ACREDITACION",      "labelKey": "acreditacion" },
+    { "value": "OTROS",             "labelKey": "otros" }
+  ],
+  "categoriasIngreso": [
+    { "value": "SERVICIO",    "labelKey": "servicio" },
+    { "value": "ALQUILER",    "labelKey": "alquiler" },
+    { "value": "INVERSIONES", "labelKey": "inversiones" },
+    { "value": "OTROS",       "labelKey": "otros" }
+  ],
+  "tiposEgreso": [
+    { "value": "INMUEBLE",   "labelKey": "inmueble" },
+    { "value": "VEHICULO",   "labelKey": "vehiculo" },
+    { "value": "SUCURSALES", "labelKey": "sucursales" },
+    { "value": "JUBILACION", "labelKey": "jubilacion" },
+    { "value": "OTROS",      "labelKey": "otros" }
+  ],
+  "mediosEgreso": [
+    { "value": "EFECTIVO",        "labelKey": "efectivo" },
+    { "value": "CHEQUE",          "labelKey": "cheque" },
+    { "value": "TARJETA_CREDITO", "labelKey": "tarjeta_credito" },
+    { "value": "TARJETA_DEBITO",  "labelKey": "tarjeta_debito" },
+    { "value": "TRANSFERENCIA",   "labelKey": "transferencia" },
+    { "value": "OTROS",           "labelKey": "otros" }
+  ],
+  "categoriasEgreso": [
+    { "value": "SUELDOS",        "labelKey": "sueldos" },
+    { "value": "PRODUCTOS",      "labelKey": "productos" },
+    { "value": "MANTENIMIENTO",  "labelKey": "mantenimiento" },
+    { "value": "PUBLICIDAD",     "labelKey": "publicidad" },
+    { "value": "OTROS",          "labelKey": "otros" }
+  ]
+}

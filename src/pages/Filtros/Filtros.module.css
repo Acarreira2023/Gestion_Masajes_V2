@@ -1,0 +1,83 @@
+/* src/pages/Filtros/Filtros.module.css */ 
+
+.filtrosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filtro {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 200px;
+}
+
+.filtro label {
+  font-size: 0.9rem;
+  color: var(--fg);
+  margin-bottom: 0.25rem;
+}
+
+.filtro input[type="date"] {
+  padding: 0.5rem;
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 1rem;
+}
+
+.filtroCheckbox {
+  display: flex;
+  align-items: flex-end;
+  font-size: 0.9rem;
+  color: var(--fg);
+}
+.filtroCheckbox input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+.filtroCheckbox input[type="checkbox"]:checked + label {
+  color: var(--accent);
+}
+.filtroCheckbox label {
+  cursor: pointer;
+}
+.filtroCheckbox label:hover {
+  color: var(--accent-hover);
+}
+.filtroCheckbox input[type="checkbox"]:focus {
+  outline: 2px solid var(--accent);
+}
+.filtroCheckbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+.filtroCheckbox input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.filtroCheckbox input[type="checkbox"]:disabled + label {
+  color: var(--button-disabled);
+}
+.filtroCheckbox input[type="checkbox"]:disabled + label:hover {
+  color: var(--button-disabled);
+}
+.filtroCheckbox input[type="checkbox"]:active {
+  background-color: var(--accent-active);
+}
+.filtroCheckbox input[type="checkbox"]:active:hover {
+  background-color: var(--accent-active);
+}
+.filtroCheckbox input[type="checkbox"]:disabled:focus {
+  outline: none;
+}
+.filtroCheckbox input[type="checkbox"]:focus:not(:focus-visible) {
+  outline: none;
+}
+.filtroCheckbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+}
+.filtroCheckbox input[type="checkbox"]:disabled:focus {
+  outline: none;
+}

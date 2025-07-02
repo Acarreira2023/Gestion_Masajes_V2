@@ -1,0 +1,220 @@
+/* src/pages/Configuracion/Configuracion.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.form {
+  background: var(--bg-alt);
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* sección de temas debajo del form */
+.themeSection {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* contenedor de botones */
+.selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* cada botón de tema */
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.opcion:hover {
+  border-color: var(--accent);
+}
+
+/* estado activo */
+.activo {
+  border-color: var(--accent);
+  background-color: var(--bg);
+}
+
+/* circulito de color */
+.color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* nombre legible */
+.nombre {
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+}
+
+.select {
+  padding: 0.5rem;
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 1rem;
+}
+
+.button {
+  align-self: flex-end;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: var(--button-text);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: var(--accent-hover);
+}
+
+.button:disabled {
+  background-color: var(--button-disabled);
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background-color: var(--button-disabled);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-focus);
+}
+
+.button:active {
+  background-color: var(--accent-active);
+}
+
+.button:active:hover {
+  background-color: var(--accent-active);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+}
+
+.button:focus:not(:focus-visible) {
+  outline: none;
+}
+.button:disabled:focus {
+  outline: none;
+}
+
+.button:disabled:focus-visible {
+  outline: 2px solid var(--button-disabled-focus);
+  outline-offset: 2px;
+}
+
+.button:disabled:active {
+  background-color: var(--button-disabled);
+}
+
+.button:disabled:active:hover {
+  background-color: var(--button-disabled);
+}
+
+.button:disabled:focus-visible {
+  outline: 2px solid var(--button-disabled-focus);
+  outline-offset: 2px;
+}
+.button:disabled:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+.selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Hover con color del tema correspondiente */
+.opcion:hover {
+  border-color: var(--hover-accent);
+}
+
+.activo {
+  border-color: var(--accent);
+  background-color: var(--bg);
+}
+
+.color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.nombre {
+  font-size: 0.95rem;
+  color: var(--fg);
+}

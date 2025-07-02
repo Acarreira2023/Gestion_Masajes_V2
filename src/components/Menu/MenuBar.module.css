@@ -1,0 +1,46 @@
+/* src/components/Menu/MenuBar.module.css */
+
+.menu {
+  background: var(--bg-alt);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--fg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto; /* permite scroll si no caben */
+}
+
+.list li {
+  margin-right: 1.5rem;
+  white-space: nowrap;
+}
+
+.active {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.logout {
+  margin-left: auto;
+}
+
+.logout button {
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+.logout button:hover {
+  color: var(--accent-hover);
+}
