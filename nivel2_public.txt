@@ -1,0 +1,4 @@
+index.html
+manifest.json
+robots.txt
+spa.png

@@ -1,3 +1,7 @@
+/* src/hooks/useEgresosCrud.jsx
+ * Descripción: Hook para CRUD de egresos.
+ * Permite crear, editar y eliminar egresos en Firestore.
+ */
 import { useCallback } from "react";
 import {
   collection,

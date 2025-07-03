@@ -1,0 +1,22 @@
+/* src/components/ChartModeToggle/ChartModeToggle.module.css */
+.toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.toggle button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--fg);
+  background: var(--bg-alt);
+  cursor: pointer;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+.toggle button.active {
+  background: var(--accent);
+  color: var(--button-text);
+  border-color: var(--accent);
+}
+.toggle button:hover {
+  opacity: 0.9;
+}

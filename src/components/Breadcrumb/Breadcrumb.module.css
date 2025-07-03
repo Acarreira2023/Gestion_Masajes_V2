@@ -1,0 +1,17 @@
+/* src/components/Breadcrumb/Breadcrumb.module.css */
+.breadcrumb {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: var(--fg-alt);
+}
+.link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+}
+.separator {
+  margin: 0 0.5rem;
+  color: var(--fg);
+}

@@ -1,5 +1,5 @@
 /*src/components/Charts/Charts.module.css*/
-
+/*
 .chartWrapper {
   background: var(--bg-alt);
   border: 1px solid var(--fg);
@@ -14,4 +14,51 @@
   text-align: center;
   color: var(--fg);
   font-size: 1rem;
+}
+*/
+
+/* src/components/charts/Charts.module.css */
+
+/* Wrapper genérico para todos los gráficos */
+.chartWrapper {
+  background: var(--bg-alt);
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  flex: 1 1 320px;
+  margin-bottom: 1rem;
+}
+
+/* Título de cada gráfico */
+.chartTitle {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  color: var(--fg);
+  font-size: 1.1rem;
+}
+
+/* Contenedor responsive de Recharts */
+.chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* Pie chart específico */
+.pieChart {
+  flex: 1 1 280px;
+  max-width: 320px;
+  background: var(--bg-alt);
+  border: 1px solid var(--fg);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+/* Título interno de pie charts */
+.pieChart h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--fg);
 }

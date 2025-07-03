@@ -1,5 +1,5 @@
 // src/components/charts/BarComparativo.jsx
-import React from "react";
+/*import React from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -27,7 +27,7 @@ export default function BarComparativo({ data }) {
         <Tooltip formatter={val => `$${val.toLocaleString()}`} />
         <Legend />
 
-        {/* Serie “Actual” */}
+        {/* Serie “Actual” }
         <Bar
           dataKey="ingresos"
           name={t("Actual")}
@@ -35,7 +35,7 @@ export default function BarComparativo({ data }) {
           barSize={30}
         />
 
-        {/* Serie “Anterior” solo si corresponde */}
+        {/* Serie “Anterior” solo si corresponde }
         {showAnterior && (
           <Bar
             dataKey="ingresosAnterior"
@@ -44,6 +44,39 @@ export default function BarComparativo({ data }) {
             barSize={30}
           />
         )}
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}*/
+
+// src/components/charts/BarComparativo.jsx
+import React from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from "recharts";
+import styles from "./Charts.module.css";
+
+/**
+ * Gráfico de barras comparativo de ingresos y egresos
+ */
+export default function BarComparativo({ data }) {
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data} className={styles.chart}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip formatter={value => new Intl.NumberFormat().format(value)} />
+        <Legend />
+        <Bar dataKey="ingresos" fill="#82ca9d" name="Ingresos" />
+        <Bar dataKey="egresos" fill="#8884d8" name="Egresos" />
       </BarChart>
     </ResponsiveContainer>
   );

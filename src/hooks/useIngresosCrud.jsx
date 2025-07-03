@@ -1,3 +1,7 @@
+/* src/hooks/useIngresosCrud.jsx
+ * Descripción: Hook para CRUD de ingresos.
+ * Permite crear, editar y eliminar ingresos en Firestore.
+ */
 import { useCallback } from "react";
 import {
   collection,

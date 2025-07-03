@@ -1,3 +1,5 @@
+// src/hooks/useSettings.jsx
+
 import { useState, useEffect, useCallback } from "react";
 
 // Deben coincidir con las clases de index.css

@@ -1,3 +1,7 @@
+/* src/hooks/useIngresosRealtime.jsx
+ * Descripción: Hook para obtener ingresos en tiempo real desde Firestore.
+ * Permite leer los ingresos ordenados por fecha de forma reactiva.
+ */
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebaseService";

@@ -1,0 +1,9 @@
+.env
+.gitignore
+estructura.txt
+nivel1.txt
+node_modules
+package-lock.json
+package.json
+public
+src
