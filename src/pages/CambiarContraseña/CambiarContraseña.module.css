@@ -1,20 +1,36 @@
-/* src/pages/Ingresar/IngresoForm.module.css */
+/* src/pages/CambiarContraseña/CambiarContraseña.module.css */
 
 .formulario {
   max-width: 600px;
   margin: auto;
-  padding: 1rem;
+  padding: 1.5rem;
   background: var(--bg-alt);
   border-radius: var(--radius);
 }
 
-.formulario h2 {
+.title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  color: var(--accent);
   text-align: center;
+}
+
+.message {
   margin-bottom: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
 }
 
 .field {
-  margin-top: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -22,15 +38,14 @@
 .field label {
   margin-bottom: 0.3rem;
   color: var(--fg);
+  font-size: 0.9rem;
 }
 
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
+.field input {
   padding: 0.5rem;
   border: 1px solid var(--fg);
   border-radius: var(--radius);
+  font-size: 1rem;
 }
 
 .buttons {
@@ -40,32 +55,34 @@
   margin-top: 1.5rem;
 }
 
-.botonArena {
-  padding: 0.7rem;
+.primary {
+  padding: 0.75rem;
   width: 100%;
   background: var(--accent);
-  color: #fff;
+  color: var(--button-text);
   border: none;
   border-radius: var(--radius);
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s;
 }
 
-.botonArena:hover {
-  background: var(--accent-focus);
+.primary:hover {
+  background: var(--accent-hover);
 }
 
-.volver {
-  padding: 0.7rem;
+.secondary {
+  padding: 0.75rem;
   width: 100%;
   background: var(--bg);
   color: var(--fg);
   border: 1px solid var(--fg);
   border-radius: var(--radius);
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background-color 0.2s;
 }
 
-.volver:hover {
+.secondary:hover {
   background: var(--hover-bg);
 }

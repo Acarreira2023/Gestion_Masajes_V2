@@ -1,3 +1,8 @@
+/* src/components/Menu/MenuBar.jsx
+ * Descripción: Componente de barra de menú.
+ * Muestra enlaces de navegación y botón de cierre de sesión.
+ */
+
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";

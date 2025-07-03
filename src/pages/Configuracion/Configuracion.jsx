@@ -1,17 +1,16 @@
-// src/pages/Configuracion/Configuracion.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useIdioma } from "../../context/IdiomaContext";
 import { useSettings } from "../../hooks/useSettings";
 import styles from "./Configuracion.module.css";
 
-// Mapa de colores de acento por tema
 const THEME_COLORS = {
-  zen:      "#6ab04c",
-  oceano:   "#0288d1",
-  lavanda:  "#9575cd",
-  selva:    "#43a047",
-  piedra:   "#607d8b",
-  crema:    "#ffb74d",
+  zen:     "#6ab04c",
+  oceano:  "#0288d1",
+  lavanda: "#9575cd",
+  selva:   "#43a047",
+  piedra:  "#607d8b",
+  crema:   "#ffb74d"
 };
 
 export default function Configuracion() {
@@ -20,11 +19,11 @@ export default function Configuracion() {
     settings: { theme, availableThemes },
     setTheme
   } = useSettings();
+  const navigate = useNavigate();
 
   const [nuevoIdioma, setNuevoIdioma] = useState(idioma);
   const [nuevoTema,   setNuevoTema]   = useState(theme);
 
-  // Cuando cambie externamente el tema, sincronizo el botón activo
   useEffect(() => {
     setNuevoTema(theme);
   }, [theme]);
@@ -35,6 +34,10 @@ export default function Configuracion() {
     setTheme(nuevoTema);
   };
 
+  const handleChangePassword = () => {
+    navigate("/cambiar-contrasena");
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -42,7 +45,6 @@ export default function Configuracion() {
       </header>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        {/* Selector de idioma */}
         <div className={styles.field}>
           <label htmlFor="idioma" className={styles.label}>
             {t("idioma")}:
@@ -59,7 +61,6 @@ export default function Configuracion() {
           </select>
         </div>
 
-        {/* Selector de tema con hover coloreado */}
         <div className={styles.field}>
           <label className={styles.label}>{t("tema_visual")}:</label>
           <div className={styles.selector}>
@@ -71,7 +72,6 @@ export default function Configuracion() {
                   nuevoTema === tName ? styles.activo : ""
                 }`}
                 onClick={() => setNuevoTema(tName)}
-                // Inyectamos la variable CSS --hover-accent
                 style={{ "--hover-accent": THEME_COLORS[tName] }}
               >
                 <span
@@ -86,10 +86,20 @@ export default function Configuracion() {
           </div>
         </div>
 
+        <div className={`${styles.field} ${styles.centerButton}`}>
+          <button
+            type="button"
+            className={`${styles.button} ${styles.secondary}`}
+            onClick={handleChangePassword}
+          >
+            {t("cambiar_contrasena")}
+          </button>
+        </div>
+
         <button type="submit" className={styles.button}>
           {t("guardar")}
         </button>
       </form>
     </div>
-);
+  );
 }

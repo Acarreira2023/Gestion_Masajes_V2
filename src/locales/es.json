@@ -27,6 +27,7 @@
   "datos": "Datos",
   "utilidad_por_tipo": "Utilidad por tipo",
   "utilidad_por_categoria": "Utilidad por categoría",
+  "utilidad_comparativo": "Utilidad",
 
 
   "graficos": "Gráficos",
@@ -56,6 +57,17 @@
   "sesion_cerrada": "Sesión cerrada exitosamente",
   "error_cerrar_sesion": "Error al cerrar sesión",
   "cerrando_sesion": "Cerrando sesión…",
+
+  "cambiar_contrasena": "Cambiar contraseña",
+  "contrasena_actual": "Contraseña actual",
+  "nueva_contrasena": "Nueva contraseña",
+  "confirmar_contrasena": "Confirmar contraseña",
+  "contrasena_incorrecta": "Contraseña incorrecta",
+  "contrasena_cambiada_correctamente": "Contraseña cambiada correctamente",
+  "error_cambiar_contrasena": "Error al cambiar contraseña",
+  "error_contrasenas_no_coinciden": "Las contraseñas no coinciden",
+  "atras": "Atrás",
+  "cerrar_sesion": "Cerrar sesión",
 
   "menu_inicio": "Inicio",
   "menu_ingresar": "Nuevo ingreso",
@@ -93,6 +105,8 @@
   "seleccionar_tipo": "Seleccionar tipo",
   "seleccionar_categoria": "Seleccionar categoría",
   "seleccionar_medio": "Seleccionar medio",
+  "seleccionar_inmueble": "Seleccionar inmueble",
+  "seleccionar_sucursal": "Seleccionar sucursal",
 
   "error_leyendo_archivo": "Error leyendo archivo",
   "encabezado_no_encontrado": "No encontré la fila de encabezados (fecha/total)",

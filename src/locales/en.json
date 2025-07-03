@@ -26,6 +26,7 @@
   "datos": "Data",
   "utilidad_por_tipo": "Profit by type",
   "utilidad_por_categoria": "Profit by category",
+  "utilidad_comparativo": "Profit",
 
   "graficos": "Charts",
   "cargando": "Loading",
@@ -54,6 +55,17 @@
   "sesion_cerrada": "Session closed successfully",
   "error_cerrar_sesion": "Error closing session",
   "cerrando_sesion": "Closing session…",
+
+  "Cambiar_contrasena": "Change password",
+  "contrasena_actual": "Current password",
+  "nueva_contrasena": "New password",
+  "confirmar_contrasena": "Confirm password",
+  "contrasena_incorrecta": "Incorrect password",
+  "contrasena_cambiada_correctamente": "Password changed successfully",
+  "error_cambiar_contraseña": "Error changing password",
+  "error_contraseñas_no_coinciden": "Passwords do not match",
+  "atras": "Back",
+  "cerrar_sesion": "Log out",
 
   "menu_inicio": "Home",
   "menu_ingresar": "New entry",
@@ -91,6 +103,8 @@
   "seleccionar_tipo": "Select type",
   "seleccionar_categoria": "Select category",
   "seleccionar_medio": "Select payment method",
+  "seleccionar_inmueble": "Select property",
+  "seleccionar_sucursal": "Select branch",
 
   "error_leyendo_archivo": "Error reading file",
   "encabezado_no_encontrado": "Header row not found (date/total)",

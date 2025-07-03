@@ -26,6 +26,7 @@
   "datos": "Dados",
   "utilidad_por_tipo": "Lucro por tipo",
   "utilidad_por_categoria": "Lucro por categoria",
+  "utilidad_comparativo": "Lucro",
 
   "graficos": "Gráficos",
   "cargando": "Carregando",
@@ -54,6 +55,17 @@
   "sesion_cerrada": "Sessão encerrada com sucesso",
   "error_cerrar_sesion": "Erro ao encerrar sessão",
   "cerrando_sesion": "Encerrando sessão…",
+
+  "Cambiar_contrasena": "Alterar senha",
+  "contrasena_actual": "Senha atual",
+  "nueva_contrasena": "Nova senha",
+  "confirmar_contrasena": "Confirmar senha",
+  "contrasena_incorrecta": "Senha incorreta",
+  "contrasena_cambiada_correctamente": "Senha alterada com sucesso",
+  "error_cambiar_contrasena": "Erro ao alterar senha",
+  "error_contrasenas_no_coinciden": "As senhas não coincidem",
+  "atras": "Voltar",
+  "cerrar_sesion": "Sair",
 
   "menu_inicio": "Início",
   "menu_ingresar": "Nova entrada",
@@ -91,6 +103,8 @@
   "seleccionar_tipo": "Selecionar tipo",
   "seleccionar_categoria": "Selecionar categoria",
   "seleccionar_medio": "Selecionar método de pagamento",
+  "seleccionar_inmueble": "Selecionar imóvel",
+  "seleccionar_sucursal": "Selecionar filial",
 
   "error_leyendo_archivo": "Erro ao ler arquivo",
   "encabezado_no_encontrado": "Cabeçalho não encontrado (data/total)",

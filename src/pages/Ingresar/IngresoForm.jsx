@@ -36,21 +36,10 @@ export default function IngresoForm({ onBack }) {
     const data = { ...f };
     if (data.tipo !== "INMUEBLE") data.inmueble = "";
     if (data.tipo !== "SUCURSALES") data.sucursal = "";
+
     const res = await guardarIngreso(data);
     if (res.success) {
       alert(t("ingreso_guardado_correctamente"));
-      setF({
-        fecha: "",
-        tipo: "",
-        inmueble: "",
-        sucursal: "",
-        medio: "",
-        categoria: "",
-        cantidad: 1,
-        numeroDoc: "",
-        descripcion: "",
-        total: 0
-      });
       onBack();
     } else {
       alert(t("error_guardar_ingreso"));
@@ -93,7 +82,7 @@ export default function IngresoForm({ onBack }) {
         </select>
       </div>
 
-      {/* Condicional Inmueble o Sucursal */}
+      {/* Inmueble / Sucursal */}
       {f.tipo === "INMUEBLE" && (
         <div className={styles.field}>
           <label htmlFor="inmueble">{t("inmueble")}</label>
@@ -219,13 +208,13 @@ export default function IngresoForm({ onBack }) {
         />
       </div>
 
-      {/* Botones */}
+      {/* Botones: primero Guardar, luego Volver */}
       <div className={styles.buttons}>
-        <button type="button" onClick={onBack}>
-          {t("volver")}
-        </button>
         <button type="submit" className={styles.botonArena}>
           {t("guardar_ingreso")}
+        </button>
+        <button type="button" className={styles.volver} onClick={onBack}>
+          {t("volver")}
         </button>
       </div>
     </form>
