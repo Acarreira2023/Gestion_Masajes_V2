@@ -58,6 +58,10 @@
   "error_cerrar_sesion": "Error al cerrar sesión",
   "cerrando_sesion": "Cerrando sesión…",
 
+  "español": "Español",
+  "inglés": "Inglés",
+  "portugués": "Portugués",
+
   "cambiar_contrasena": "Cambiar contraseña",
   "contrasena_actual": "Contraseña actual",
   "nueva_contrasena": "Nueva contraseña",
@@ -74,6 +78,7 @@
   "menu_graficos": "Gráficos",
   "menu_configuracion": "Configuración",
   "menu_cerrar_sesion": "Cerrar sesión",
+  "ingresar": "Ingresar",
 
   "ingresar_datos": "Ingresar datos",
   "ingreso_manual": "Ingreso manual",

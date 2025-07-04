@@ -42,7 +42,7 @@
   "acciones": "Ações",
 
   "configuracion": "Configurações",
-  "idioma": "Idioma",
+  "idioma": "Linguagem",
   "guardar": "Salvar",
   "tema_visual": "Tema visual",
   "tema_zen": "Zen (verde suave)",
@@ -56,7 +56,11 @@
   "error_cerrar_sesion": "Erro ao encerrar sessão",
   "cerrando_sesion": "Encerrando sessão…",
 
-  "Cambiar_contrasena": "Alterar senha",
+  "español": "Espanhol",
+  "inglés": "Inglês",
+  "portugués": "Português",
+
+  "cambiar_contrasena": "Alterar senha",
   "contrasena_actual": "Senha atual",
   "nueva_contrasena": "Nova senha",
   "confirmar_contrasena": "Confirmar senha",
@@ -72,6 +76,7 @@
   "menu_graficos": "Gráficos",
   "menu_configuracion": "Configurações",
   "menu_cerrar_sesion": "Sair",
+  "ingresar": "Entrar",
 
   "ingresar_datos": "Inserir dados",
   "ingreso_manual": "Entrada manual",

@@ -6,10 +6,12 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useIdioma } from "../../context/IdiomaContext";
 import styles from "./MenuBar.module.css";
 
 export default function MenuBar() {
   const { logout } = useAuth();
+  const { t } = useIdioma();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -22,33 +24,33 @@ export default function MenuBar() {
       <ul className={styles.list}>
         <li>
           <NavLink to="/ingresar"    className={({isActive})=> isActive?styles.active:""}>{/* usar exact si hace falta */}
-            Ingresar
+            {t("ingresar")}
           </NavLink>
         </li>
         <li>
           <NavLink to="/datos"       className={({isActive})=> isActive?styles.active:""}>
-            Datos
+            {t("datos")}
           </NavLink>
         </li>
         <li>
           <NavLink to="/ingresos"    className={({isActive})=> isActive?styles.active:""}>
-            Ingresos
+            {t("ingresos")}
           </NavLink>
         </li>
         <li>
           <NavLink to="/graficos"    className={({isActive})=> isActive?styles.active:""}>
-            Gráficos
+            {t("graficos")}
           </NavLink>
         </li>
         <li>
           <NavLink to="/configuracion" className={({isActive})=> isActive?styles.active:""}>
-            Configuración
+            {t("configuracion")}
           </NavLink>
         </li>
 
         <li className={styles.logout}>
           <button onClick={handleLogout}>
-            Cerrar sesión
+            {t("cerrar_sesion")}
           </button>
         </li>
       </ul>

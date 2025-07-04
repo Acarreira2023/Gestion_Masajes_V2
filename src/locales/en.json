@@ -56,7 +56,11 @@
   "error_cerrar_sesion": "Error closing session",
   "cerrando_sesion": "Closing session…",
 
-  "Cambiar_contrasena": "Change password",
+  "español": "Spanish",
+  "inglés": "English",
+  "portugués": "Portuguese",
+
+  "cambiar_contrasena": "Change password",
   "contrasena_actual": "Current password",
   "nueva_contrasena": "New password",
   "confirmar_contrasena": "Confirm password",
@@ -66,6 +70,7 @@
   "error_contraseñas_no_coinciden": "Passwords do not match",
   "atras": "Back",
   "cerrar_sesion": "Log out",
+  "ingresar": "Get into",
 
   "menu_inicio": "Home",
   "menu_ingresar": "New entry",
