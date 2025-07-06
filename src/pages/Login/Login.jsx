@@ -1,5 +1,6 @@
 // src/pages/Login/Login.jsx
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useIdioma } from "../../context/IdiomaContext";
@@ -17,17 +18,41 @@ export default function Login() {
   const [error, setError]       = useState(null);
   const [loading, setLoading]   = useState(false);
 
+  // al montar, cargamos el email guardado si existe
+  useEffect(() => {
+    const saved = localStorage.getItem("savedEmail");
+    if (saved) {
+      setEmail(saved);
+      setRemember(true);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
     try {
       await login(email, password, remember);
+      // persistimos solo el email
+      if (remember) {
+        localStorage.setItem("savedEmail", email);
+      } else {
+        localStorage.removeItem("savedEmail");
+      }
       navigate("/home");
     } catch (err) {
       setError(err.message || t("error_login") || "Error al iniciar sesión");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRememberChange = (e) => {
+    const chk = e.target.checked;
+    setRemember(chk);
+    if (!chk) {
+      localStorage.removeItem("savedEmail");
     }
   };
 
@@ -69,9 +94,9 @@ export default function Login() {
             <input
               type="checkbox"
               checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
+              onChange={handleRememberChange}
             />
-            {t("Recordar")}
+            {t("Recordar email")}
           </label>
         </div>
 
