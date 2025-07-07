@@ -1,10 +1,12 @@
 // src/config/firebaseService.jsx
+
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
   addDoc,
   getDocs,
+  writeBatch,
   Timestamp,
   doc,
   deleteDoc
@@ -16,6 +18,9 @@ const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
+/**
+ * Normaliza `fecha` a Firestore Timestamp.
+ */
 const normalizeFecha = (fecha) => {
   if (!fecha) return fecha;
   if (fecha instanceof Timestamp) return fecha;
@@ -24,7 +29,8 @@ const normalizeFecha = (fecha) => {
   return !isNaN(dt) ? Timestamp.fromDate(dt) : fecha;
 };
 
-// INGRESOS
+// ---------- INGRESOS ----------
+
 export const guardarIngreso = async (data) => {
   try {
     const payload = { ...data, fecha: normalizeFecha(data.fecha) };
@@ -35,16 +41,25 @@ export const guardarIngreso = async (data) => {
     return { success: false, error };
   }
 };
+
 export const obtenerIngresos = async () => {
   const snap = await getDocs(collection(db, "ingresos"));
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 };
+
 export const subirIngresos = async (datos) => {
+  const batch = writeBatch(db);
   const col = collection(db, "ingresos");
-  for (let d of datos) {
-    await addDoc(col, { ...d, fecha: normalizeFecha(d.fecha) });
-  }
+  datos.forEach(item => {
+    const ref = doc(col);
+    batch.set(ref, {
+      ...item,
+      fecha: normalizeFecha(item.fecha)
+    });
+  });
+  await batch.commit();
 };
+
 export const borrarIngreso = async (id) => {
   try {
     await deleteDoc(doc(db, "ingresos", id));
@@ -55,7 +70,8 @@ export const borrarIngreso = async (id) => {
   }
 };
 
-// EGRESOS
+// ---------- EGRESOS ----------
+
 export const guardarEgreso = async (data) => {
   try {
     const payload = { ...data, fecha: normalizeFecha(data.fecha) };
@@ -66,16 +82,25 @@ export const guardarEgreso = async (data) => {
     return { success: false, error };
   }
 };
+
 export const obtenerEgresos = async () => {
   const snap = await getDocs(collection(db, "egresos"));
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 };
+
 export const subirEgresos = async (datos) => {
+  const batch = writeBatch(db);
   const col = collection(db, "egresos");
-  for (let d of datos) {
-    await addDoc(col, { ...d, fecha: normalizeFecha(d.fecha) });
-  }
+  datos.forEach(item => {
+    const ref = doc(col);
+    batch.set(ref, {
+      ...item,
+      fecha: normalizeFecha(item.fecha)
+    });
+  });
+  await batch.commit();
 };
+
 export const borrarEgreso = async (id) => {
   try {
     await deleteDoc(doc(db, "egresos", id));

@@ -23,8 +23,8 @@ export default function MenuBar() {
     <nav className={styles.menu}>
       <ul className={styles.list}>
         <li>
-          <NavLink to="/ingresar"    className={({isActive})=> isActive?styles.active:""}>{/* usar exact si hace falta */}
-            {t("ingresar")}
+          <NavLink to="/graficos1"    className={({isActive})=> isActive?styles.active:""}>
+            {t("Resumen Finanzas")}
           </NavLink>
         </li>
         <li>
@@ -33,13 +33,8 @@ export default function MenuBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/ingresos"    className={({isActive})=> isActive?styles.active:""}>
-            {t("ingresos")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/graficos"    className={({isActive})=> isActive?styles.active:""}>
-            {t("graficos")}
+          <NavLink to="/ingresar"    className={({isActive})=> isActive?styles.active:""}>{/* usar exact si hace falta */}
+            {t("ingresar")}
           </NavLink>
         </li>
         <li>

@@ -14,6 +14,7 @@ import {
   differenceInCalendarDays
 } from "date-fns";
 import { es, enUS, ptBR } from "date-fns/locale";
+import { Timestamp } from "firebase/firestore";
 
 /** Mapa de locales para date-fns */
 export const localesMap = {
@@ -23,17 +24,29 @@ export const localesMap = {
 };
 
 /**
- * Convierte un input (Date|ISO|string|timestamp) en Date válido o devuelve null.
+ * Convierte un input (Date | ISO | string | number | Timestamp) en Date válido o devuelve null.
  */
 export function toDate(input) {
+  if (!input) return null;
+
+  // 1) Firestore Timestamp
+  if (input instanceof Timestamp) {
+    const d = input.toDate();
+    return isValid(d) ? d : null;
+  }
+
+  // 2) Date nativo
   if (input instanceof Date) {
     return isValid(input) ? input : null;
   }
+
+  // 3) ISO string
   if (typeof input === "string") {
     const d = parseISO(input);
     return isValid(d) ? d : null;
   }
-  // número (timestamp)
+
+  // 4) número (timestamp ms)
   const d = new Date(input);
   return isValid(d) ? d : null;
 }
@@ -63,8 +76,7 @@ export function addDays(input, days) {
 }
 
 /**
- * Obtiene lunes y domingo de la semana de la fecha dada.
- * { start: Monday, end: Sunday } o null.
+ * Obtiene lunes y domingo de la semana de la fecha dada. { start: Monday, end: Sunday } o null.
  */
 export function getWeekRange(input) {
   const d = toDate(input);
@@ -96,8 +108,7 @@ export function parsearFechaISO(isoStr) {
 }
 
 /**
- * Formato corto "dd/MM/yyyy" con locale.
- * Devuelve "--" si inválida.
+ * Formato corto "dd/MM/yyyy" con locale. Devuelve "--" si inválida.
  */
 export function formatFechaCorta(input, idioma = "es") {
   const d = toDate(input);
@@ -107,14 +118,11 @@ export function formatFechaCorta(input, idioma = "es") {
 }
 
 /**
- * Formato largo (e.g. "sábado, 28 de junio de 2025") con locale.
- * Devuelve "--" si inválida.
+ * Formato largo (e.g. "sábado, 28 de junio de 2025") con locale. Devuelve "--" si inválida.
  */
 export function formatFechaLarga(input, idioma = "es") {
   const d = toDate(input);
-  return d
-    ? format(d, "PPPP", { locale: localesMap[idioma] })
-    : "--";
+  return d ? format(d, "PPPP", { locale: localesMap[idioma] }) : "--";
 }
 
 /**
@@ -144,8 +152,7 @@ export function unAnioAntes(input) {
 }
 
 /**
- * Texto tipo "hace 3 días", "en 2 meses", etc., con locale.
- * Devuelve "--" si inválida.
+ * Texto tipo "hace 3 días", "en 2 meses", etc., con locale. Devuelve "--" si inválida.
  */
 export function desdeAhora(input, idioma = "es") {
   const d = toDate(input);

@@ -1,0 +1,208 @@
+/* src/pages/Graficos1/Graficos1.module.css */
+
+:root {
+  --card-bg: #ffffff;
+  --card-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --chart-bg: #ffffff;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
+  --text-muted: #666666;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+}
+
+.filterBox {
+  border: 1px solid #cccccc;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: #fafafa;
+  margin: 0 auto 1.5rem;
+  width: 90%;
+  max-width: 600px;
+}
+
+.filterRow {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.filterFields {
+  flex: 1;
+}
+
+.fieldPair {
+  display: flex;
+  gap: 1rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.filterGroup label {
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+.filterGroup select,
+.filterGroup input[type="date"] {
+  padding: 0.25rem;
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.filterButton {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.filterButton:hover {
+  background-color: #0056b3;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  flex: 1 1 calc(20% - 1rem);
+  min-width: 140px;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.valueWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.green {
+  color: #28a745;
+}
+
+.red {
+  color: #dc3545;
+}
+
+.arrow_green {
+  color: #28a745;
+}
+
+.arrow_red {
+  color: #dc3545;
+}
+
+/* --- GRÁFICO DE BARRAS --- */
+.barSection {
+  background-color: var(--chart-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* Centrar el título */
+.barSection h4 {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Etiquetas de eje X */
+.axisLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #666666;
+  margin-top: 0.5rem;
+}
+
+/* --- GRÁFICOS DE TORTA --- */
+.piesContainer {
+  display: flex;
+  gap: 2rem;
+}
+
+.pieBlock {
+  flex: 1 1 45%;
+  background-color: var(--chart-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Forzar ingresos a la izquierda, egresos a la derecha */
+.pieIngresos {
+  order: 1;
+}
+
+.pieEgresos {
+  order: 2;
+}
+
+.pieWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.toggleContainer {
+  text-align: center;
+}
+
+.toggleButton {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
