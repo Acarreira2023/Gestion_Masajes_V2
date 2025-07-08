@@ -293,7 +293,7 @@ export default function Datos() {
                   <th>{t("categoria")}</th>
                   <th>{t("tipo")}</th>
                   <th>{t("proveedor")}</th>
-                  <th>Total</th>
+                  <th>{t("Total")}</th>
                   <th>{t("acciones")}</th>
                 </tr>
               </thead>
@@ -362,7 +362,7 @@ export default function Datos() {
                   <th>{t("categoria")}</th>
                   <th>{t("tipo")}</th>
                   <th>{t("proveedor")}</th>
-                  <th>Total</th>
+                  <th>{t("Total")}</th>
                   <th>{t("acciones")}</th>
                 </tr>
               </thead>
