@@ -2,6 +2,7 @@
   "name": "gestion_masajes.v2",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://acarreira2023.github.io/Gestion_Masajes_V2/",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -17,6 +18,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
