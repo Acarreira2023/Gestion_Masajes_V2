@@ -6,10 +6,19 @@ import BarComparativo from "../../components/charts/BarComparativo";
 import PieChartComponent from "../../components/charts/PieChart";
 import styles from "./Graficos1.module.css";
 
+// formatea ISO → "dd-mm-aaaa"
+const formatDDMMYYYY = iso => {
+  const d = new Date(iso);
+  const day   = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year  = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
 export default function Graficos1() {
   const { t } = useIdioma();
 
-  // Estados de filtro
+  // filtro
   const [mode, setMode]     = useState("single");
   const [fecha, setFecha]   = useState("");
   const [desde, setDesde]   = useState("");
@@ -18,7 +27,6 @@ export default function Graficos1() {
   const [anio, setAnio]     = useState("");
   const [params, setParams] = useState({});
 
-  // Hook de datos con params
   const {
     byDate,
     ingresosByTipo,
@@ -28,14 +36,14 @@ export default function Graficos1() {
     loading
   } = useReportData(params);
 
-  // Totales y métricas
+  // totales/métricas
   const totalI   = byDate.length ? byDate.at(-1).ingresos : 0;
   const totalE   = byDate.length ? byDate.at(-1).egresos  : 0;
   const utilidad = totalI - totalE;
   const indice   = totalE > 0 ? utilidad / totalE : 0;
   const margen   = totalI > 0 ? (utilidad / totalI) * 100 : 0;
 
-  // Formateadores
+  // formateadores numéricos
   const fmtCurr = v =>
     new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(v);
   const fmtIdx = v => v.toFixed(2);
@@ -45,7 +53,7 @@ export default function Graficos1() {
       minimumFractionDigits: 1
     }).format(p / 100);
 
-  // Configuración de tarjetas
+  // tarjetas
   const cards = useMemo(() => [
     { label: t("total_ingresos"),   value: totalI,   fmt: fmtCurr, color: "green" },
     { label: t("total_egresos"),    value: totalE,   fmt: fmtCurr, color: "red"   },
@@ -54,24 +62,25 @@ export default function Graficos1() {
     { label: t("margen_utilidad"),  value: margen,   fmt: fmtPct,  color: margen >= 0   ? "green" : "red" }
   ], [totalI, totalE, utilidad, indice, margen, t]);
 
-  // Agrupación para tortas
+  // pies
   const [groupBy, setGroupBy] = useState("categoria");
 
-  // Generar barData con ingresos primero
+  // barData con fechas formateadas
   const barData = useMemo(
-    () => byDate.map(d => ({
-      name: d.name,
-      ingresos: d.ingresos,
-      egresos: d.egresos
-    })),
+    () =>
+      byDate.map(d => ({
+        name: formatDDMMYYYY(d.name),
+        ingresos: d.ingresos,
+        egresos: d.egresos
+      })),
     [byDate]
   );
 
-  // Años últimos 5
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear - i);
+  // años para mensual
+  const thisYear = new Date().getFullYear();
+  const years = Array.from({ length: 6 }, (_, i) => thisYear - i);
 
-  // Aplica filtro según modo
+  // apply / clear
   const applyFilter = () => {
     if (mode === "single" && fecha) {
       setParams({ fecha });
@@ -86,7 +95,6 @@ export default function Graficos1() {
       setParams({});
     }
   };
-
   const clearFilter = () => {
     setFecha(""); setDesde(""); setHasta("");
     setMes(""); setAnio("");
@@ -97,74 +105,81 @@ export default function Graficos1() {
     return <p className={styles.loading}>{t("cargando")}…</p>;
   }
 
-  // Datos para tortas
   const ingresosPie = groupBy === "categoria" ? ingresosByCategoria : ingresosByTipo;
   const egresosPie  = groupBy === "categoria" ? egresosByCategoria  : egresosByTipo;
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Panel Financiero</h2>
+      <h2 className={styles.title}>{t("panel_financiero")}</h2>
 
       {/* FILTRO */}
       <div className={styles.filterBox}>
-        <div className={styles.filterRow}>
-          {/* Selector de modo */}
-          <div className={styles.filterGroup}>
-            <label>{t("modo_de_filtro")}</label>
-            <select value={mode} onChange={e => setMode(e.target.value)}>
-              <option value="single">{t("una_sola_fecha")}</option>
-              <option value="range">{t("rango_de_fechas")}</option>
-              <option value="mensual">{t("mensual")}</option>
-            </select>
-          </div>
-
-          {/* Campos dinámicos */}
-          <div className={styles.filterFields}>
-            {mode === "single" && (
-              <div className={styles.filterGroup}>
-                <label>{t("una_sola_fecha")}</label>
-                <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
-              </div>
-            )}
-            {mode === "range" && (
-              <div className={styles.fieldPair}>
-                <div className={styles.filterGroup}>
-                  <label>{t("desde")}</label>
-                  <input type="date" value={desde} onChange={e => setDesde(e.target.value)} />
-                </div>
-                <div className={styles.filterGroup}>
-                  <label>{t("hasta")}</label>
-                  <input type="date" value={hasta} onChange={e => setHasta(e.target.value)} />
-                </div>
-              </div>
-            )}
-            {mode === "mensual" && (
-              <div className={styles.fieldPair}>
-                <div className={styles.filterGroup}>
-                  <label>{t("mes")}</label>
-                  <select value={mes} onChange={e => setMes(e.target.value)}>
-                    <option value="">—</option>
-                    {Array.from({ length:12 },(_,i)=>i+1).map(m => (
-                      <option key={m} value={String(m)}>
-                        {String(m).padStart(2,"0")}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className={styles.filterGroup}>
-                  <label>{t("anio")}</label>
-                  <select value={anio} onChange={e => setAnio(e.target.value)}>
-                    <option value="">—</option>
-                    {years.map(y => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-          </div>
+        <div className={styles.filterGroup}>
+          <label>{t("modo_de_filtro")}</label>
+          <select value={mode} onChange={e => setMode(e.target.value)}>
+            <option value="single">{t("una_sola_fecha")}</option>
+            <option value="range">{t("rango_de_fechas")}</option>
+            <option value="mensual">{t("mensual")}</option>
+          </select>
         </div>
-        {/* Botones */}
+
+        {mode === "single" && (
+          <div className={styles.filterGroup}>
+            <label>{t("una_sola_fecha")}</label>
+            <input
+              type="date"
+              value={fecha}
+              onChange={e => setFecha(e.target.value)}
+            />
+          </div>
+        )}
+
+        {mode === "range" && (
+          <div className={styles.fieldPair}>
+            <div className={styles.filterGroup}>
+              <label>{t("desde")}</label>
+              <input
+                type="date"
+                value={desde}
+                onChange={e => setDesde(e.target.value)}
+              />
+            </div>
+            <div className={styles.filterGroup}>
+              <label>{t("hasta")}</label>
+              <input
+                type="date"
+                value={hasta}
+                onChange={e => setHasta(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+
+        {mode === "mensual" && (
+          <div className={styles.fieldPair}>
+            <div className={styles.filterGroup}>
+              <label>{t("mes")}</label>
+              <select value={mes} onChange={e => setMes(e.target.value)}>
+                <option value="">—</option>
+                {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                  <option key={m} value={String(m).padStart(2,"0")}>
+                    {String(m).padStart(2,"0")}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.filterGroup}>
+              <label>{t("anio")}</label>
+              <select value={anio} onChange={e => setAnio(e.target.value)}>
+                <option value="">—</option>
+                {years.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
         <div className={styles.buttonGroup}>
           <button onClick={applyFilter} className={styles.filterButton}>
             {t("aplicar_filtro")}
@@ -191,13 +206,17 @@ export default function Graficos1() {
         })}
       </div>
 
-      {/* BARRA ACUMULADA (ingresos a la izquierda, egresos a la derecha) */}
+      {/* BARRA ACUMULADA */}
       <section className={styles.barSection}>
         <h4>{t("ingresos_vs_egresos_acumulado")}</h4>
         <BarComparativo data={barData} />
+        <div className={styles.axisLabels}>
+          <span>{t("ingresos")}</span>
+          <span>{t("egresos")}</span>
+        </div>
       </section>
 
-      {/* TOGGLE PARA TORTAS */}
+      {/* TOGGLE TORTAS */}
       <div className={styles.toggleContainer}>
         <button
           onClick={() => setGroupBy(g => g === "categoria" ? "tipo" : "categoria")}
@@ -209,7 +228,7 @@ export default function Graficos1() {
         </button>
       </div>
 
-      {/* TORTAS (ingresos izquierda, egresos derecha) */}
+      {/* TORTAS */}
       <div className={styles.piesContainer}>
         <div className={`${styles.pieBlock} ${styles.pieIngresos}`}>
           <h5>

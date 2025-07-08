@@ -1,12 +1,14 @@
 /* src/pages/Graficos1/Graficos1.module.css */
 
 :root {
-  --card-bg: #ffffff;
-  --card-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  --chart-bg: #ffffff;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
-  --text-muted: #666666;
+  --card-bg:     #ffffff;
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --chart-bg:    #ffffff;
+  --bg-filter:   #fafafa;
+  --btn-bg:      #007bff;
+  --btn-hover:   #0056b3;
+  --btn-text:    #ffffff;
+  --text-muted:  #666666;
 }
 
 .container {
@@ -23,37 +25,45 @@
   color: #333333;
 }
 
+/* ===== FILTRO ===== */
 .filterBox {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-filter);
   border: 1px solid #cccccc;
   border-radius: 0.75rem;
-  padding: 1rem;
-  background-color: #fafafa;
-  margin: 0 auto 1.5rem;
   width: 90%;
-  max-width: 600px;
+  max-width: 500px;
+  margin: 0 auto 2rem;
 }
 
 .filterRow {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: flex-start;
 }
 
 .filterFields {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .fieldPair {
   display: flex;
   gap: 1rem;
+  justify-content: center;
 }
 
 .filterGroup {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   text-align: center;
-  gap: 0.5rem;
 }
 
 .filterGroup label {
@@ -63,31 +73,34 @@
 
 .filterGroup select,
 .filterGroup input[type="date"] {
-  padding: 0.25rem;
+  width: 100%;
+  max-width: 200px;
+  padding: 0.5rem;
   border: 1px solid #cccccc;
   border-radius: 0.25rem;
 }
 
 .buttonGroup {
   display: flex;
+  gap: 1rem;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .filterButton {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
+  padding: 0.5rem 1.2rem;
   border-radius: 0.25rem;
-  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
 .filterButton:hover {
-  background-color: #0056b3;
+  background-color: var(--btn-hover);
 }
 
+/* ===== TARJETAS ===== */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -101,7 +114,7 @@
   border-radius: 0.5rem;
   flex: 1 1 calc(20% - 1rem);
   min-width: 140px;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
@@ -132,32 +145,31 @@
   color: #dc3545;
 }
 
-/* --- GRÁFICO DE BARRAS --- */
+/* ===== GRÁFICO DE BARRAS ===== */
 .barSection {
   background-color: var(--chart-bg);
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-card);
 }
 
-/* Centrar el título */
 .barSection h4 {
   text-align: center;
   margin-bottom: 0.75rem;
 }
 
-/* Etiquetas de eje X */
 .axisLabels {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #666666;
+  color: var(--text-muted);
   margin-top: 0.5rem;
 }
 
-/* --- GRÁFICOS DE TORTA --- */
+/* ===== GRÁFICOS DE TORTA ===== */
 .piesContainer {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
@@ -166,13 +178,12 @@
   background-color: var(--chart-bg);
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Forzar ingresos a la izquierda, egresos a la derecha */
 .pieIngresos {
   order: 1;
 }
@@ -188,19 +199,25 @@
   margin-top: 0.5rem;
 }
 
+/* ===== TOGGLE ===== */
 .toggleContainer {
   text-align: center;
 }
 
 .toggleButton {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
+.toggleButton:hover {
+  background-color: var(--btn-hover);
+}
+
+/* ===== LOADING ===== */
 .loading {
   text-align: center;
   font-size: 1.2rem;
