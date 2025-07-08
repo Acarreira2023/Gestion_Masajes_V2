@@ -136,3 +136,10 @@
   font-size: 1.1rem;
   color: var(--text-muted);
 }
+
+
+@media screen and (max-width: 720px){
+  .table{
+    width: 40%;
+  }
+}
