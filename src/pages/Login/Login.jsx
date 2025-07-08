@@ -40,7 +40,7 @@ export default function Login() {
       } else {
         localStorage.removeItem("savedEmail");
       }
-      navigate("/home");
+      navigate("/graficos1");
     } catch (err) {
       setError(err.message || t("error_login") || "Error al iniciar sesión");
     } finally {

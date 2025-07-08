@@ -11,6 +11,7 @@
   "todas": "Todas",
   "alquiler": "Aluguel",
   "productos": "Produtos",
+  "proveedor": "Fornecedor",
   "sueldos": "Salários",
   "fecha": "Data",
   "comparar_con_anio_anterior": "Comparar com o mesmo dia do ano anterior",
@@ -91,6 +92,7 @@
   "menu_configuracion": "Configurações",
   "menu_cerrar_sesion": "Sair",
   "ingresar": "Entrar",
+  "Resumen Finanzas": "Resumo Financeiro",
 
   "ingresar_datos": "Inserir dados",
   "ingreso_manual": "Entrada manual",

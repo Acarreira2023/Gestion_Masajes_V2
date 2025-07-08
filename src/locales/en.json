@@ -11,6 +11,7 @@
   "todas": "All",
   "alquiler": "Rent",
   "productos": "Products",
+  "proveedor": "Supplier",
   "sueldos": "Salaries",
   "fecha": "Date",
   "comparar_con_anio_anterior": "Compare with the same day last year",
@@ -84,13 +85,14 @@
   "error_contraseñas_no_coinciden": "Passwords do not match",
   "atras": "Back",
   "cerrar_sesion": "Log out",
-  "ingresar": "Get into",
 
   "menu_inicio": "Home",
   "menu_ingresar": "New entry",
   "menu_graficos": "Charts",
   "menu_configuracion": "Settings",
   "menu_cerrar_sesion": "Log out",
+  "ingresar": "Get into",
+  "Resumen Finanzas": "Summary Finance",
 
   "ingresar_datos": "Enter data",
   "ingreso_manual": "Manual entry",
