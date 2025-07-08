@@ -210,10 +210,6 @@ export default function Graficos1() {
       <section className={styles.barSection}>
         <h4>{t("ingresos_vs_egresos_acumulado")}</h4>
         <BarComparativo data={barData} />
-        <div className={styles.axisLabels}>
-          <span>{t("ingresos")}</span>
-          <span>{t("egresos")}</span>
-        </div>
       </section>
 
       {/* TOGGLE TORTAS */}
