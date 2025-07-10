@@ -14,79 +14,94 @@ import {
   doc,
   Timestamp
 } from "firebase/firestore";
-import { startOfDay, addDays, endOfMonth } from "date-fns";
+import { endOfMonth } from "date-fns";
 import { FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import styles from "../Ingreso/Ingreso.module.css";
 
 export default function Egreso() {
   const { t } = useIdioma();
 
-  // filtros
-  const [mode, setMode]               = useState("single");
-  const [fecha, setFecha]             = useState("");
-  const [desde, setDesde]             = useState("");
-  const [hasta, setHasta]             = useState("");
-  const [mes, setMes]                 = useState("");
-  const [anio, setAnio]               = useState("");
+  // --- Estados de filtro ---
+  const [mode, setMode]     = useState("single");
+  const [fecha, setFecha]   = useState("");
+  const [desde, setDesde]   = useState("");
+  const [hasta, setHasta]   = useState("");
+  const [mes, setMes]       = useState("");
+  const [anio, setAnio]     = useState("");
   const [filterParams, setFilterParams] = useState({});
 
-  // datos, selección y edición
-  const [egresos, setEgresos]     = useState([]);
-  const [selEg, setSelEg]         = useState(new Set());
+  // --- Datos y UI ---
+  const [egresos, setEgresos]       = useState([]);
+  const [selEg, setSelEg]           = useState(new Set());
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(null);
+
+  // --- Inline edit ---
   const [editingId, setEditingId] = useState(null);
-  const [editData, setEditData]   = useState({});
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
+  const [editData, setEditData]   = useState({
+    categoria: "",
+    tipo: "",
+    proveedor: "",
+    total: ""
+  });
 
-  // años para filtro mensual
+  // Años para filtro mensual
   const currentYear = new Date().getFullYear();
-  const years       = Array.from({ length: 6 }, (_, i) => currentYear - i);
+  const years = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-  // arma la consulta con rangos de Timestamp
-  function buildQuery() {
-    const col = collection(db, "egresos");
-    let q   = col;
+  // Convierte "YYYY-MM-DD" a Date local a medianoche
+  const parseLocalDate = str => {
+    const [y, m, d] = str.split("-").map(Number);
+    return new Date(y, m - 1, d, 0, 0, 0);
+  };
+
+  // Construye la query con un día extra al final
+  const buildQuery = () => {
+    let q = collection(db, "egresos");
     const p = filterParams;
 
     if (p.mode === "single" && p.fecha) {
-      const d0  = startOfDay(new Date(p.fecha));
-      const d1  = addDays(d0, 1);
+      const start = parseLocalDate(p.fecha);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 1);
       q = query(
-        col,
-        where("fecha", ">=", Timestamp.fromDate(d0)),
-        where("fecha", "<",  Timestamp.fromDate(d1)),
-        orderBy("fecha", "desc")
-      );
-
-    } else if (p.mode === "range" && p.desde && p.hasta) {
-      const d0 = startOfDay(new Date(p.desde));
-      const d1 = addDays(startOfDay(new Date(p.hasta)), 1);
-      q = query(
-        col,
-        where("fecha", ">=", Timestamp.fromDate(d0)),
-        where("fecha", "<",  Timestamp.fromDate(d1)),
-        orderBy("fecha", "desc")
-      );
-
-    } else if (p.mode === "mensual" && p.mes && p.anio) {
-      const date  = new Date(p.anio, Number(p.mes) - 1, 1);
-      const start = startOfDay(date);
-      const end   = endOfMonth(date);
-      q = query(
-        col,
+        q,
         where("fecha", ">=", Timestamp.fromDate(start)),
-        where("fecha", "<",  Timestamp.fromDate(addDays(end, 1))),
+        where("fecha", "<",  Timestamp.fromDate(end)),
         orderBy("fecha", "desc")
       );
-
-    } else {
-      q = query(col, orderBy("fecha", "desc"));
+    }
+    else if (p.mode === "range" && p.desde && p.hasta) {
+      const start = parseLocalDate(p.desde);
+      const end   = parseLocalDate(p.hasta);
+      end.setDate(end.getDate() + 1);
+      q = query(
+        q,
+        where("fecha", ">=", Timestamp.fromDate(start)),
+        where("fecha", "<",  Timestamp.fromDate(end)),
+        orderBy("fecha", "desc")
+      );
+    }
+    else if (p.mode === "mensual" && p.mes && p.anio) {
+      const first = new Date(p.anio, Number(p.mes) - 1, 1, 0, 0, 0);
+      let last = endOfMonth(first);
+      last.setHours(0, 0, 0, 0);
+      last.setDate(last.getDate() + 1);
+      q = query(
+        q,
+        where("fecha", ">=", Timestamp.fromDate(first)),
+        where("fecha", "<",  Timestamp.fromDate(last)),
+        orderBy("fecha", "desc")
+      );
+    }
+    else {
+      q = query(q, orderBy("fecha", "desc"));
     }
 
     return q;
-  }
+  };
 
-  // carga datos al cambiar filtros
+  // Carga datos al cambiar filtros
   useEffect(() => {
     async function load() {
       setLoading(true);
@@ -96,27 +111,25 @@ export default function Egreso() {
         const list = snap.docs.map(d => {
           const data = d.data();
           const raw  = data.fecha;
-          const dt   =
-            raw instanceof Date
-              ? raw
-              : raw.toDate
-                ? raw.toDate()
-                : raw.seconds
-                  ? new Date(raw.seconds * 1000)
-                  : new Date(raw);
+          const dt   = raw.toDate
+            ? raw.toDate()
+            : raw.seconds
+              ? new Date(raw.seconds * 1000)
+              : new Date(raw);
           return {
             id:        d.id,
             fecha:     dt.toLocaleDateString(),
-            categoria: data.categoria  || "",
-            tipo:      data.tipo       || "",
-            proveedor: data.proveedor  || "",
-            total:     data.total      || 0
+            categoria: data.categoria || "",
+            tipo:      data.tipo      || "",
+            proveedor: data.proveedor || "",
+            total:     data.total     || 0
           };
         });
         setEgresos(list);
         setSelEg(new Set());
-      } catch (e) {
-        setError(e.message);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -124,32 +137,34 @@ export default function Egreso() {
     load();
   }, [filterParams]);
 
-  // aplicar / limpiar
+  // Aplica o limpia filtros
   const applyFilter = () =>
     setFilterParams({ mode, fecha, desde, hasta, mes, anio });
   const clearFilter = () => {
     setMode("single");
     setFecha(""); setDesde(""); setHasta("");
-    setMes("");   setAnio("");
+    setMes(""); setAnio("");
     setFilterParams({});
   };
 
-  // selección y borrado
-  const toggleSelect    = id => {
+  // Selección y borrado
+  const toggleSelect   = id => {
     setSelEg(prev => {
       const s = new Set(prev);
       s.has(id) ? s.delete(id) : s.add(id);
       return s;
     });
   };
-  const handleSelectAll = () =>
+  const selectAll     = () =>
     setSelEg(prev =>
       prev.size === egresos.length
         ? new Set()
         : new Set(egresos.map(e => e.id))
     );
-  const handleDeleteAll = async () => {
-    for (let id of selEg) await deleteDoc(doc(db, "egresos", id));
+  const deleteSelected = async () => {
+    for (let id of selEg) {
+      await deleteDoc(doc(db, "egresos", id));
+    }
     setEgresos(prev => prev.filter(e => !selEg.has(e.id)));
     setSelEg(new Set());
   };
@@ -163,16 +178,21 @@ export default function Egreso() {
     });
   };
 
-  // edición inline
-  const startEdit = row => {
+  // Inline edit
+  const startEdit  = row => {
     setEditingId(row.id);
-    setEditData({ ...row });
+    setEditData({
+      categoria: row.categoria,
+      tipo:      row.tipo,
+      proveedor: row.proveedor,
+      total:     row.total.toString()
+    });
   };
   const cancelEdit = () => {
     setEditingId(null);
-    setEditData({});
+    setEditData({ categoria: "", tipo: "", proveedor: "", total: "" });
   };
-  const saveEdit = async id => {
+  const saveEdit   = async id => {
     const ref = doc(db, "egresos", id);
     await updateDoc(ref, {
       categoria: editData.categoria,
@@ -201,10 +221,7 @@ export default function Egreso() {
       <div className={styles.filterBox}>
         <div className={styles.filterGroup}>
           <label>{t("modo_de_filtro")}</label>
-          <select
-            value={mode}
-            onChange={e => setMode(e.target.value)}
-          >
+          <select value={mode} onChange={e => setMode(e.target.value)}>
             <option value="single">{t("una_sola_fecha")}</option>
             <option value="range">{t("rango_de_fechas")}</option>
             <option value="mensual">{t("mensual")}</option>
@@ -247,24 +264,18 @@ export default function Egreso() {
           <div className={styles.fieldPair}>
             <div className={styles.filterGroup}>
               <label>{t("mes")}</label>
-              <select
-                value={mes}
-                onChange={e => setMes(e.target.value)}
-              >
+              <select value={mes} onChange={e => setMes(e.target.value)}>
                 <option value="">—</option>
-                {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
-                  <option key={m} value={String(m).padStart(2, "0")}>
-                    {String(m).padStart(2, "0")}
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i+1} value={String(i+1).padStart(2,"0")}>
+                    {String(i+1).padStart(2,"0")}
                   </option>
                 ))}
               </select>
             </div>
             <div className={styles.filterGroup}>
               <label>{t("anio")}</label>
-              <select
-                value={anio}
-                onChange={e => setAnio(e.target.value)}
-              >
+              <select value={anio} onChange={e => setAnio(e.target.value)}>
                 <option value="">—</option>
                 {years.map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -275,16 +286,10 @@ export default function Egreso() {
         )}
 
         <div className={styles.buttonGroup}>
-          <button
-            className={styles.filterButton}
-            onClick={applyFilter}
-          >
+          <button onClick={applyFilter} className={styles.filterButton}>
             {t("aplicar_filtro")}
           </button>
-          <button
-            className={styles.filterButton}
-            onClick={clearFilter}
-          >
+          <button onClick={clearFilter} className={styles.filterButton}>
             {t("borrar_filtro")}
           </button>
         </div>
@@ -292,11 +297,8 @@ export default function Egreso() {
 
       {/* ACCIONES */}
       <div className={styles.actions}>
-        <button onClick={handleSelectAll}>{t("seleccionar_todos")}</button>
-        <button
-          disabled={!selEg.size}
-          onClick={handleDeleteAll}
-        >
+        <button onClick={selectAll}>{t("seleccionar_todos")}</button>
+        <button disabled={!selEg.size} onClick={deleteSelected}>
           {t("borrar_seleccionados")}
         </button>
       </div>
@@ -305,11 +307,13 @@ export default function Egreso() {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th><input
-              type="checkbox"
-              checked={selEg.size === egresos.length}
-              onChange={handleSelectAll}
-            /></th>
+            <th>
+              <input
+                type="checkbox"
+                checked={selEg.size === egresos.length}
+                onChange={selectAll}
+              />
+            </th>
             <th>{t("fecha")}</th>
             <th>{t("categoria")}</th>
             <th>{t("tipo")}</th>
@@ -319,18 +323,18 @@ export default function Egreso() {
           </tr>
         </thead>
         <tbody>
-          {egresos.map(r => (
-            <tr key={r.id}>
+          {egresos.map(row => (
+            <tr key={row.id}>
               <td>
                 <input
                   type="checkbox"
-                  checked={selEg.has(r.id)}
-                  onChange={() => toggleSelect(r.id)}
+                  checked={selEg.has(row.id)}
+                  onChange={() => toggleSelect(row.id)}
                 />
               </td>
-              <td>{r.fecha}</td>
+              <td>{row.fecha}</td>
               <td>
-                {editingId === r.id ? (
+                {editingId === row.id ? (
                   <input
                     className={styles.editInput}
                     value={editData.categoria}
@@ -339,11 +343,11 @@ export default function Egreso() {
                     }
                   />
                 ) : (
-                  r.categoria
+                  row.categoria
                 )}
               </td>
               <td>
-                {editingId === r.id ? (
+                {editingId === row.id ? (
                   <input
                     className={styles.editInput}
                     value={editData.tipo}
@@ -352,11 +356,11 @@ export default function Egreso() {
                     }
                   />
                 ) : (
-                  r.tipo
+                  row.tipo
                 )}
               </td>
               <td>
-                {editingId === r.id ? (
+                {editingId === row.id ? (
                   <input
                     className={styles.editInput}
                     value={editData.proveedor}
@@ -365,11 +369,11 @@ export default function Egreso() {
                     }
                   />
                 ) : (
-                  r.proveedor
+                  row.proveedor
                 )}
               </td>
               <td>
-                {editingId === r.id ? (
+                {editingId === row.id ? (
                   <input
                     className={styles.editInput}
                     value={editData.total}
@@ -378,28 +382,32 @@ export default function Egreso() {
                     }
                   />
                 ) : (
-                  `$${r.total}`
+                  `$${row.total}`
                 )}
               </td>
               <td className={styles.rowActions}>
-                {editingId === r.id ? (
+                {editingId === row.id ? (
                   <>
-                    <button onClick={() => saveEdit(r.id)}><FaSave/></button>
-                    <button onClick={cancelEdit}><FaTimes/></button>
+                    <button onClick={() => saveEdit(row.id)}>
+                      <FaSave />
+                    </button>
+                    <button onClick={cancelEdit}>
+                      <FaTimes />
+                    </button>
                   </>
                 ) : (
                   <>
                     <button
-                      onClick={() => startEdit(r)}
+                      onClick={() => startEdit(row)}
                       className={styles.editBtn}
                     >
-                      <FaEdit/>
+                      <FaEdit />
                     </button>
                     <button
-                      onClick={() => deleteOne(r.id)}
+                      onClick={() => deleteOne(row.id)}
                       className={styles.deleteBtn}
                     >
-                      <FaTrash/>
+                      <FaTrash />
                     </button>
                   </>
                 )}
