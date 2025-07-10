@@ -23,6 +23,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "date-fns": "^4.1.0",
     "firebase": "^11.9.1",
     "react": "^19.1.0",
