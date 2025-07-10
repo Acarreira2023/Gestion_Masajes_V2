@@ -8,7 +8,8 @@ import { useSettings } from "./hooks/useSettings";
 
 const Login               = lazy(() => import("./pages/Login/Login"));
 const Ingresar            = lazy(() => import("./pages/Ingresar/Ingresar"));
-const Datos               = lazy(() => import("./pages/Datos/Datos"));
+const Ingreso               = lazy(() => import("./pages/Datos/Ingreso/Ingreso"));
+const Egreso               = lazy(() => import("./pages/Datos/Egreso/Egreso"));
 const Graficos_1          = lazy(() => import("./pages/Graficos1/Graficos1"));
 const Configuracion       = lazy(() => import("./pages/Configuracion/Configuracion"));
 const CambiarContraseña   = lazy(() => import("./pages/CambiarContraseña/CambiarContraseña"));
@@ -30,16 +31,17 @@ export default function App() {
             </PrivateRoute>
           }
         >
-          <Route index element={<Navigate to="ingresos" replace />} />
+          <Route index element={<Navigate to="graficos1" replace />} />
           <Route path="ingresar"       element={<Ingresar />} />
-          <Route path="datos"          element={<Datos />} />
+          <Route path="ingreso"          element={<Ingreso />} />
+          <Route path="egreso"          element={<Egreso />} />
           <Route path="graficos1"      element={<Graficos_1 />} />
           <Route path="configuracion"  element={<Configuracion />} />
           <Route path="cambiar-contrasena" element={<CambiarContraseña />} />
           <Route path="logout"         element={<CerrarSesion />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/ingresos" replace />} />
+        <Route path="*" element={<Navigate to="/graficos1" replace />} />
       </Routes>
     </Suspense>
   );

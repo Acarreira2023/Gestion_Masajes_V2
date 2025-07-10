@@ -137,6 +137,41 @@
   color: var(--text-muted);
 }
 
+/* estilos para las acciones de cada fila */
+.rowActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* botón “lápiz” */
+.editBtn {
+  background: transparent;
+  border: none;
+  color: #007bff;        /* ajustá al color de tus íconos */
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;       /* tamaño del icono */
+}
+
+/* hover del lápiz */
+.editBtn:hover {
+  color: #0056b3;
+}
+
+/* botón basurero */
+.deleteBtn {
+  background: transparent;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.deleteBtn:hover {
+  color: #a71d2a;
+}
 
 @media screen and (max-width: 720px){
   .table{

@@ -28,8 +28,13 @@ export default function MenuBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/datos"       className={({isActive})=> isActive?styles.active:""}>
-            {t("datos")}
+          <NavLink to="/ingreso"       className={({isActive})=> isActive?styles.active:""}>
+            {t("ingreso")}
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/egreso"       className={({isActive})=> isActive?styles.active:""}>
+            {t("egreso")}
           </NavLink>
         </li>
         <li>
