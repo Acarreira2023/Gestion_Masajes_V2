@@ -27,14 +27,14 @@
 /* ===== FILTRO ===== */
 .filterBox {
   display: flex;
-  flex-direction: column;
+  flex-direction: auto;
   gap: 1rem;
   padding: 1rem;
   background-color: var(--bg-filter);
   border: 1px solid #ccc;
   border-radius: 0.75rem;
-  width: 90%;
-  max-width: 500px;
+  width: flex 1 auto;
+  max-width: 650px;
   margin: 0 auto 2rem;
 }
 
