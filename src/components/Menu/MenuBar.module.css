@@ -18,6 +18,16 @@
   overflow-x: auto; /* permite scroll si no caben */
 }
 
+/* Solo para offcanvas: vertical */
+.flex-column {
+  flex-direction: column !important;
+}
+
+.offLogout {
+  margin-left: 0 !important;
+}
+
+
 .list li {
   margin-right: 1.5rem;
   white-space: nowrap;
@@ -43,4 +53,15 @@
 
 .logout button:hover {
   color: var(--accent-hover);
+}
+
+.hamburgerBtn {
+  background: none;
+  border: none;
+}
+
+.hamburgerIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
