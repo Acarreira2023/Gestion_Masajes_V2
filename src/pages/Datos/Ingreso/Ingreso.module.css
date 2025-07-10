@@ -1,0 +1,145 @@
+/* src/pages/Datos/Ingreso/Ingreso.module.css */
+
+:root {
+  --bg-card:     #ffffff;
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --bg-filter:   #fafafa;
+  --btn-bg:      #007bff;
+  --btn-hover:   #0056b3;
+  --btn-text:    #ffffff;
+  --text-muted:  #666666;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+/* ===== FILTRO ===== */
+.filterBox {
+  display: flex;
+  flex-direction: auto;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-filter);
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  width: flex 1 auto;
+  max-width: 650px;
+  margin: 0 auto 2rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  text-align: center;
+}
+
+.filterGroup label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.filterGroup select,
+.filterGroup input[type="date"] {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.fieldPair {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.filterButton {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.filterButton:hover {
+  background-color: var(--btn-hover);
+}
+
+/* ===== TABLAS ===== */
+.tableSection {
+  background-color: var(--bg-card);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-card);
+  padding: 1rem;
+}
+
+.tableSection h3 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  text-align: left;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+
+@media screen and (max-width: 720px){
+  .table{
+    width: 40%;
+  }
+}
