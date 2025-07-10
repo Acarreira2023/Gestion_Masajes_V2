@@ -42,46 +42,40 @@ export default function Egreso() {
   const currentYear = new Date().getFullYear();
   const years       = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-  // construye la query usando Timestamps
+  // arma la consulta con rangos de Timestamp
   function buildQuery() {
     const col = collection(db, "egresos");
     let q   = col;
     const p = filterParams;
 
     if (p.mode === "single" && p.fecha) {
-      const d0    = startOfDay(new Date(p.fecha));
-      const d1    = addDays(d0, 1);
-      const ts0   = Timestamp.fromDate(d0);
-      const ts1   = Timestamp.fromDate(d1);
+      const d0  = startOfDay(new Date(p.fecha));
+      const d1  = addDays(d0, 1);
       q = query(
         col,
-        where("fecha", ">=", ts0),
-        where("fecha", "<",  ts1),
+        where("fecha", ">=", Timestamp.fromDate(d0)),
+        where("fecha", "<",  Timestamp.fromDate(d1)),
         orderBy("fecha", "desc")
       );
 
     } else if (p.mode === "range" && p.desde && p.hasta) {
-      const d0    = startOfDay(new Date(p.desde));
-      const d1    = addDays(startOfDay(new Date(p.hasta)), 1);
-      const ts0   = Timestamp.fromDate(d0);
-      const ts1   = Timestamp.fromDate(d1);
+      const d0 = startOfDay(new Date(p.desde));
+      const d1 = addDays(startOfDay(new Date(p.hasta)), 1);
       q = query(
         col,
-        where("fecha", ">=", ts0),
-        where("fecha", "<",  ts1),
+        where("fecha", ">=", Timestamp.fromDate(d0)),
+        where("fecha", "<",  Timestamp.fromDate(d1)),
         orderBy("fecha", "desc")
       );
 
     } else if (p.mode === "mensual" && p.mes && p.anio) {
-      const date  = new Date(p.anio, Number(p.mes)-1, 1);
+      const date  = new Date(p.anio, Number(p.mes) - 1, 1);
       const start = startOfDay(date);
       const end   = endOfMonth(date);
-      const ts0   = Timestamp.fromDate(start);
-      const ts1   = Timestamp.fromDate(addDays(end, 1));
       q = query(
         col,
-        where("fecha", ">=", ts0),
-        where("fecha", "<",  ts1),
+        where("fecha", ">=", Timestamp.fromDate(start)),
+        where("fecha", "<",  Timestamp.fromDate(addDays(end, 1))),
         orderBy("fecha", "desc")
       );
 
@@ -92,7 +86,7 @@ export default function Egreso() {
     return q;
   }
 
-  // carga datos
+  // carga datos al cambiar filtros
   useEffect(() => {
     async function load() {
       setLoading(true);
@@ -101,20 +95,27 @@ export default function Egreso() {
         const snap = await getDocs(buildQuery());
         const list = snap.docs.map(d => {
           const data = d.data();
-          const dt   = data.fecha.toDate();
+          const raw  = data.fecha;
+          const dt   =
+            raw instanceof Date
+              ? raw
+              : raw.toDate
+                ? raw.toDate()
+                : raw.seconds
+                  ? new Date(raw.seconds * 1000)
+                  : new Date(raw);
           return {
             id:        d.id,
             fecha:     dt.toLocaleDateString(),
-            categoria: data.categoria || "",
-            tipo:      data.tipo      || "",
-            proveedor: data.proveedor || "",
-            total:     data.total     || 0
+            categoria: data.categoria  || "",
+            tipo:      data.tipo       || "",
+            proveedor: data.proveedor  || "",
+            total:     data.total      || 0
           };
         });
         setEgresos(list);
         setSelEg(new Set());
       } catch (e) {
-        console.error(e);
         setError(e.message);
       } finally {
         setLoading(false);
@@ -123,7 +124,7 @@ export default function Egreso() {
     load();
   }, [filterParams]);
 
-  // aplicar / limpiar filtros
+  // aplicar / limpiar
   const applyFilter = () =>
     setFilterParams({ mode, fecha, desde, hasta, mes, anio });
   const clearFilter = () => {
@@ -134,16 +135,19 @@ export default function Egreso() {
   };
 
   // selección y borrado
-  const toggleSelect    = id => setSelEg(prev => {
-    const s = new Set(prev);
-    s.has(id) ? s.delete(id) : s.add(id);
-    return s;
-  });
-  const handleSelectAll = () => setSelEg(prev =>
-    prev.size === egresos.length
-      ? new Set()
-      : new Set(egresos.map(e => e.id))
-  );
+  const toggleSelect    = id => {
+    setSelEg(prev => {
+      const s = new Set(prev);
+      s.has(id) ? s.delete(id) : s.add(id);
+      return s;
+    });
+  };
+  const handleSelectAll = () =>
+    setSelEg(prev =>
+      prev.size === egresos.length
+        ? new Set()
+        : new Set(egresos.map(e => e.id))
+    );
   const handleDeleteAll = async () => {
     for (let id of selEg) await deleteDoc(doc(db, "egresos", id));
     setEgresos(prev => prev.filter(e => !selEg.has(e.id)));
@@ -152,7 +156,11 @@ export default function Egreso() {
   const deleteOne = async id => {
     await deleteDoc(doc(db, "egresos", id));
     setEgresos(prev => prev.filter(e => e.id !== id));
-    setSelEg(prev => { const s = new Set(prev); s.delete(id); return s; });
+    setSelEg(prev => {
+      const s = new Set(prev);
+      s.delete(id);
+      return s;
+    });
   };
 
   // edición inline
@@ -191,52 +199,55 @@ export default function Egreso() {
 
       {/* FILTRO */}
       <div className={styles.filterBox}>
-        <label className={styles.filterLabel}>{t("modo_de_filtro")}:</label>
-        <select
-          className={styles.filterSelect}
-          value={mode}
-          onChange={e => setMode(e.target.value)}
-        >
-          <option value="single">{t("una_sola_fecha")}</option>
-          <option value="range">{t("rango_de_fechas")}</option>
-          <option value="mensual">{t("mensual")}</option>
-        </select>
+        <div className={styles.filterGroup}>
+          <label>{t("modo_de_filtro")}</label>
+          <select
+            value={mode}
+            onChange={e => setMode(e.target.value)}
+          >
+            <option value="single">{t("una_sola_fecha")}</option>
+            <option value="range">{t("rango_de_fechas")}</option>
+            <option value="mensual">{t("mensual")}</option>
+          </select>
+        </div>
 
-        <span className={styles.filterTitle}>
-          {mode === "single" && t("una_sola_fecha")}
-          {mode === "range"  && t("rango_de_fechas")}
-          {mode === "mensual"&& t("mensual")}
-        </span>
-
-        <div className={styles.filterInputs}>
-          {mode === "single" && (
+        {mode === "single" && (
+          <div className={styles.filterGroup}>
+            <label>{t("una_sola_fecha")}</label>
             <input
               type="date"
-              className={styles.filterInput}
               value={fecha}
               onChange={e => setFecha(e.target.value)}
             />
-          )}
-          {mode === "range" && (
-            <>
+          </div>
+        )}
+
+        {mode === "range" && (
+          <div className={styles.fieldPair}>
+            <div className={styles.filterGroup}>
+              <label>{t("desde")}</label>
               <input
                 type="date"
-                className={styles.filterInput}
                 value={desde}
                 onChange={e => setDesde(e.target.value)}
               />
+            </div>
+            <div className={styles.filterGroup}>
+              <label>{t("hasta")}</label>
               <input
                 type="date"
-                className={styles.filterInput}
                 value={hasta}
                 onChange={e => setHasta(e.target.value)}
               />
-            </>
-          )}
-          {mode === "mensual" && (
-            <>
+            </div>
+          </div>
+        )}
+
+        {mode === "mensual" && (
+          <div className={styles.fieldPair}>
+            <div className={styles.filterGroup}>
+              <label>{t("mes")}</label>
               <select
-                className={styles.filterInput}
                 value={mes}
                 onChange={e => setMes(e.target.value)}
               >
@@ -247,8 +258,10 @@ export default function Egreso() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className={styles.filterGroup}>
+              <label>{t("anio")}</label>
               <select
-                className={styles.filterInput}
                 value={anio}
                 onChange={e => setAnio(e.target.value)}
               >
@@ -257,16 +270,24 @@ export default function Egreso() {
                   <option key={y} value={y}>{y}</option>
                 ))}
               </select>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
 
-        <button className={styles.applyBtn} onClick={applyFilter}>
-          {t("aplicar_filtro")}
-        </button>
-        <button className={styles.clearBtn} onClick={clearFilter}>
-          {t("borrar_filtro")}
-        </button>
+        <div className={styles.buttonGroup}>
+          <button
+            className={styles.filterButton}
+            onClick={applyFilter}
+          >
+            {t("aplicar_filtro")}
+          </button>
+          <button
+            className={styles.filterButton}
+            onClick={clearFilter}
+          >
+            {t("borrar_filtro")}
+          </button>
+        </div>
       </div>
 
       {/* ACCIONES */}
@@ -284,13 +305,11 @@ export default function Egreso() {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>
-              <input
-                type="checkbox"
-                checked={selEg.size === egresos.length}
-                onChange={handleSelectAll}
-              />
-            </th>
+            <th><input
+              type="checkbox"
+              checked={selEg.size === egresos.length}
+              onChange={handleSelectAll}
+            /></th>
             <th>{t("fecha")}</th>
             <th>{t("categoria")}</th>
             <th>{t("tipo")}</th>
@@ -365,12 +384,8 @@ export default function Egreso() {
               <td className={styles.rowActions}>
                 {editingId === r.id ? (
                   <>
-                    <button onClick={() => saveEdit(r.id)}>
-                      <FaSave />
-                    </button>
-                    <button onClick={cancelEdit}>
-                      <FaTimes />
-                    </button>
+                    <button onClick={() => saveEdit(r.id)}><FaSave/></button>
+                    <button onClick={cancelEdit}><FaTimes/></button>
                   </>
                 ) : (
                   <>
@@ -378,13 +393,13 @@ export default function Egreso() {
                       onClick={() => startEdit(r)}
                       className={styles.editBtn}
                     >
-                      <FaEdit />
+                      <FaEdit/>
                     </button>
                     <button
                       onClick={() => deleteOne(r.id)}
                       className={styles.deleteBtn}
                     >
-                      <FaTrash />
+                      <FaTrash/>
                     </button>
                   </>
                 )}
