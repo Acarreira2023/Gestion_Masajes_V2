@@ -23,6 +23,7 @@ export default function EgresoForm({ onBack }) {
     cantidad: 1,
     numeroDoc: "",
     descripcion: "",
+    proveedor: "",
     total: 0
   });
 
@@ -168,6 +169,18 @@ export default function EgresoForm({ onBack }) {
           value={f.cantidad}
           onChange={handleChange}
           required
+        />
+      </div>
+
+      {/* Proveedor */}
+      <div className={styles.field}>
+        <label htmlFor="proveedor">{t("proveedor")}</label>
+        <input
+          type="text"
+          id="proveedor"
+          name="proveedor"
+          value={f.proveedor}
+          onChange={handleChange}
         />
       </div>
 
