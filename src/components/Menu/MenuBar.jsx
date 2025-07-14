@@ -4,6 +4,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useIdioma } from "../../context/IdiomaContext";
+import { exportIngresos, exportEgresos } from "../../services/exportService";
 import styles from "./MenuBar.module.css";
 
 export default function MenuBar() {
@@ -21,6 +22,7 @@ export default function MenuBar() {
     { to: "/ingreso",       text: t("ingreso") },
     { to: "/egreso",        text: t("egreso") },
     { to: "/ingresar",      text: t("ingresar") },
+    { to: "/exportar",     text: t("exportar") },
     { to: "/configuracion", text: t("configuracion") }
   ];
 

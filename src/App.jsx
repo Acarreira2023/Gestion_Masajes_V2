@@ -11,6 +11,7 @@ const Ingresar            = lazy(() => import("./pages/Ingresar/Ingresar"));
 const Ingreso               = lazy(() => import("./pages/Datos/Ingreso/Ingreso"));
 const Egreso               = lazy(() => import("./pages/Datos/Egreso/Egreso"));
 const Graficos_1          = lazy(() => import("./pages/Graficos1/Graficos1"));
+const  ExportService     = lazy(() => import("./pages/exportService/exportService"));
 const Configuracion       = lazy(() => import("./pages/Configuracion/Configuracion"));
 const CambiarContraseña   = lazy(() => import("./pages/CambiarContraseña/CambiarContraseña"));
 const CerrarSesion        = lazy(() => import("./pages/CerrarSesion/CerrarSesion"));
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="ingreso"          element={<Ingreso />} />
           <Route path="egreso"          element={<Egreso />} />
           <Route path="graficos1"      element={<Graficos_1 />} />
+          <Route path="exportar"       element={<ExportService />} />
           <Route path="configuracion"  element={<Configuracion />} />
           <Route path="cambiar-contrasena" element={<CambiarContraseña />} />
           <Route path="logout"         element={<CerrarSesion />} />

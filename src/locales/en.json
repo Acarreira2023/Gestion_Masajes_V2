@@ -102,6 +102,8 @@
   "ingresar_datos": "Enter data",
   "ingreso_manual": "Manual entry",
   "importar_archivo": "Import",
+  "exportar_datos": "Export Data",
+  "exportar": "Export",
   "formulario_ingreso": "Income form",
   "formulario_egreso": "Expense form",
   "archivo_ingreso": "Import income file",
