@@ -1,4 +1,5 @@
 // src/context/AuthContext.jsx
+
 import React, {
   createContext,
   useContext,
@@ -31,6 +32,7 @@ export function AuthProvider({ children }) {
 
   console.log("🟢 AuthProvider montado. loading=", loading, "user=", user);
 
+  // Estado de autenticación
   useEffect(() => {
     console.log("→ Registrando onAuthStateChanged");
     const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
@@ -69,6 +71,7 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
+  // Funciones de login / register / logout
   const login = useCallback((email, password) =>
     signInWithEmailAndPassword(auth, email, password).catch((err) => {
       toast.error("Error al iniciar sesión: " + err.message);
@@ -98,6 +101,33 @@ export function AuthProvider({ children }) {
       throw err;
     }), []
   );
+
+  // 3) Efecto para cerrar sesión sólo al cerrar la pestaña/ventana
+  useEffect(() => {
+    let isReloading = false;
+
+    // Detectar F5 o Ctrl+R / ⌘+R
+    const onKeyDown = (e) => {
+      const refresh =
+        e.key === "F5" ||
+        ((e.key === "r" || e.key === "R") && (e.ctrlKey || e.metaKey));
+      if (refresh) isReloading = true;
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    // Antes de descargar la página, si NO fue recarga, cierra sesión
+    const onBeforeUnload = () => {
+      if (!isReloading) {
+        logout();
+      }
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("beforeunload", onBeforeUnload);
+    };
+  }, [logout]);
 
   const value = { user, loading, login, register, logout };
 
