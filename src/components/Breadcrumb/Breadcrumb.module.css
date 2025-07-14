@@ -9,7 +9,7 @@
   text-decoration: none;
 }
 .link:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .separator {
   margin: 0 0.5rem;
