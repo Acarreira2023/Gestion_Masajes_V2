@@ -1,3 +1,4 @@
+/* src/services/firebaseAuth.jsx*/
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,

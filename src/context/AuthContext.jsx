@@ -11,102 +11,77 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  getIdTokenResult
+  signOut as firebaseSignOut
 } from "firebase/auth";
 import { auth } from "../services/firebaseService";
 import { toast } from "react-hot-toast";
 
-// 1) Contexto y hook
+// Importar funciones para rol desde Firestore
+import { fetchUserRole } from "../services/userService";
+
 export const AuthContext = createContext(null);
+
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth debe usarse dentro de AuthProvider");
   return ctx;
 }
 
-// 2) Provider
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(null);
+  const [user,    setUser]    = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("🟢 AuthProvider montado. loading=", loading, "user=", user);
-
-  // Estado de autenticación
+  // 1) Escuchar estado de auth y leer rol desde Firestore
   useEffect(() => {
-    console.log("→ Registrando onAuthStateChanged");
     const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
-      console.log("← callback onAuthStateChanged:", fbUser);
-
       if (fbUser) {
-        let role = null;
-        try {
-          const idTokenRes = await getIdTokenResult(fbUser, false);
-          role = idTokenRes.claims.role || null;
-        } catch (err) {
-          console.warn("No se pudo leer custom claims:", err);
-        }
+        // Obtener rol del doc /users/{uid}, por defecto "user"
+        const role = await fetchUserRole(fbUser.uid);
         setUser({
           uid:   fbUser.uid,
           email: fbUser.email,
-          name:  fbUser.displayName || "",
           role
         });
       } else {
         setUser(null);
       }
-
       setLoading(false);
-      console.log(
-        "⚙️ onAuthStateChanged finalizado. loading=",
-        false,
-        "user=",
-        fbUser
-      );
     });
-
-    return () => {
-      console.log("→ Desinscribiendo onAuthStateChanged");
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
 
-  // Funciones de login / register / logout
+  // 2) Funciones de login / registro / logout
   const login = useCallback((email, password) =>
-    signInWithEmailAndPassword(auth, email, password).catch((err) => {
-      toast.error("Error al iniciar sesión: " + err.message);
-      throw err;
-    }), []
+    signInWithEmailAndPassword(auth, email, password)
+      .catch(err => {
+        toast.error("Error al iniciar sesión: " + err.message);
+        throw err;
+      }),
+    []
   );
 
-  const register = useCallback((email, password) => {
-    if (user?.role !== "developer") {
-      toast.error("Sin permisos para crear usuarios");
-      return Promise.reject(new Error("Sin permisos para crear usuarios"));
-    }
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((cred) => {
-        toast.success("Usuario creado: " + email);
-        return cred;
-      })
-      .catch((err) => {
+  const register = useCallback((email, password) =>
+    createUserWithEmailAndPassword(auth, email, password)
+      .catch(err => {
         toast.error("Error al registrar usuario: " + err.message);
         throw err;
-      });
-  }, [user]);
-
-  const logout = useCallback(() =>
-    firebaseSignOut(auth).catch((err) => {
-      toast.error("Error al cerrar sesión: " + err.message);
-      throw err;
-    }), []
+      }),
+    []
   );
 
-  // 3) Efecto para cerrar sesión sólo al cerrar la pestaña/ventana
+  const logout = useCallback(() =>
+    firebaseSignOut(auth).catch(err => {
+      toast.error("Error al cerrar sesión: " + err.message);
+      throw err;
+    }),
+    []
+  );
+
+  // 3) Cerrar sesión solo al cerrar la pestaña/ventana, no al recargar
   useEffect(() => {
     let isReloading = false;
 
-    // Detectar F5 o Ctrl+R / ⌘+R
+    // Marcar reload si F5 o Ctrl/Cmd+R
     const onKeyDown = (e) => {
       const refresh =
         e.key === "F5" ||
@@ -115,11 +90,9 @@ export function AuthProvider({ children }) {
     };
     window.addEventListener("keydown", onKeyDown);
 
-    // Antes de descargar la página, si NO fue recarga, cierra sesión
+    // Antes de unload, si no fue reload, disparar logout
     const onBeforeUnload = () => {
-      if (!isReloading) {
-        logout();
-      }
+      if (!isReloading) logout();
     };
     window.addEventListener("beforeunload", onBeforeUnload);
 

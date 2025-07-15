@@ -9,50 +9,34 @@ import styles from "./Login.module.css";
 
 export default function Login() {
   const { login } = useAuth();
-  const { t } = useIdioma();
-  const navigate = useNavigate();
+  const { t }     = useIdioma();
+  const nav       = useNavigate();
 
-  const [email, setEmail]       = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [error, setError]       = useState(null);
-  const [loading, setLoading]   = useState(false);
+  const [email, setEmail]     = useState("");
+  const [password, setPass]   = useState("");
+  const [remember, setRem]    = useState(false);
+  const [error, setError]     = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // al montar, cargamos el email guardado si existe
   useEffect(() => {
     const saved = localStorage.getItem("savedEmail");
-    if (saved) {
-      setEmail(saved);
-      setRemember(true);
-    }
+    if (saved) { setEmail(saved); setRem(true); }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
     try {
-      await login(email, password, remember);
-      // persistimos solo el email
-      if (remember) {
-        localStorage.setItem("savedEmail", email);
-      } else {
-        localStorage.removeItem("savedEmail");
-      }
-      navigate("/graficos1");
+      await login(email, password);
+      remember
+        ? localStorage.setItem("savedEmail", email)
+        : localStorage.removeItem("savedEmail");
+      nav("/graficos1");
     } catch (err) {
-      setError(err.message || t("error_login") || "Error al iniciar sesión");
+      setError(err.message || t("error_login"));
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleRememberChange = (e) => {
-    const chk = e.target.checked;
-    setRemember(chk);
-    if (!chk) {
-      localStorage.removeItem("savedEmail");
     }
   };
 
@@ -61,9 +45,8 @@ export default function Login() {
       className={styles.container}
       style={{ backgroundImage: `url(${fondoImg})` }}
     >
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <h2 className={styles.title}>{t("Bienvenido")}</h2>
-
         {error && <div className={styles.error}>{error}</div>}
 
         <label className={styles.label}>
@@ -71,7 +54,7 @@ export default function Login() {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             placeholder="you@example.com"
             required
             className={styles.input}
@@ -83,29 +66,26 @@ export default function Login() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPass(e.target.value)}
             required
             className={styles.input}
           />
         </label>
 
-        <div className={styles.options}>
-          <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              checked={remember}
-              onChange={handleRememberChange}
-            />
-            {t("Recordar email")}
-          </label>
-        </div>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={remember}
+            onChange={e => {
+              setRem(e.target.checked);
+              if (!e.target.checked) localStorage.removeItem("savedEmail");
+            }}
+          />
+          {t("Recordar email")}
+        </label>
 
-        <button
-          type="submit"
-          className={styles.submit}
-          disabled={loading}
-        >
-          {loading ? `${t("Ingresar")}...` : t("Ingresar")}
+        <button type="submit" className={styles.submit} disabled={loading}>
+          {loading ? `${t("Ingresar")}…` : t("Ingresar")}
         </button>
       </form>
     </div>

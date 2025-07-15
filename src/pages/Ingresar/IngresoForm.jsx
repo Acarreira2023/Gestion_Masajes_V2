@@ -1,5 +1,7 @@
 // src/pages/Ingresar/IngresoForm.jsx
+
 import React, { useState } from "react";
+import { Timestamp } from "firebase/firestore";
 import styles from "./IngresoForm.module.css";
 import { guardarIngreso } from "../../services/firebaseService";
 import {
@@ -34,8 +36,14 @@ export default function IngresoForm({ onBack }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { ...f };
+
     if (data.tipo !== "INMUEBLE") data.inmueble = "";
     if (data.tipo !== "SUCURSALES") data.sucursal = "";
+
+    // Parsear fecha a medianoche local (UTC−3)
+    const [year, month, day] = data.fecha.split("-").map(Number);
+    const dtLocal = new Date(year, month - 1, day);
+    data.fecha = Timestamp.fromDate(dtLocal);
 
     const res = await guardarIngreso(data);
     if (res.success) {
@@ -63,6 +71,7 @@ export default function IngresoForm({ onBack }) {
         />
       </div>
 
+      {/* Resto de campos... */}
       {/* Tipo */}
       <div className={styles.field}>
         <label htmlFor="tipo">{t("tipo")}</label>
@@ -82,7 +91,6 @@ export default function IngresoForm({ onBack }) {
         </select>
       </div>
 
-      {/* Inmueble / Sucursal */}
       {f.tipo === "INMUEBLE" && (
         <div className={styles.field}>
           <label htmlFor="inmueble">{t("inmueble")}</label>
@@ -208,7 +216,7 @@ export default function IngresoForm({ onBack }) {
         />
       </div>
 
-      {/* Botones: primero Guardar, luego Volver */}
+      {/* Botones */}
       <div className={styles.buttons}>
         <button type="submit" className={styles.botonArena}>
           {t("guardar_ingreso")}

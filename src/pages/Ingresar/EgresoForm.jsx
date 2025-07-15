@@ -1,5 +1,7 @@
 // src/pages/Ingresar/EgresoForm.jsx
+
 import React, { useState } from "react";
+import { Timestamp } from "firebase/firestore";
 import styles from "./EgresoForm.module.css";
 import { guardarEgreso } from "../../services/firebaseService";
 import {
@@ -35,12 +37,17 @@ export default function EgresoForm({ onBack }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { ...f };
+
     if (data.tipo !== "INMUEBLE") data.inmueble = "";
     if (data.tipo !== "SUCURSALES") data.sucursal = "";
 
+    // Fecha a medianoche local
+    const [year, month, day] = data.fecha.split("-").map(Number);
+    const dtLocal = new Date(year, month - 1, day);
+    data.fecha = Timestamp.fromDate(dtLocal);
+
     const res = await guardarEgreso(data);
     if (res.success) {
-      // aquí podrías usar toast.success en lugar de alert
       alert(t("egreso_guardado_correctamente"));
       onBack();
     } else {
@@ -222,12 +229,12 @@ export default function EgresoForm({ onBack }) {
         />
       </div>
 
-      {/* Botones: primero Guardar, luego Volver */}
+      {/* Botones */}
       <div className={styles.buttons}>
         <button type="submit" className={styles.botonArena}>
           {t("guardar_egreso")}
         </button>
-        <button type="button" onClick={onBack} className={styles.volver}>
+        <button type="button" className={styles.volver} onClick={onBack}>
           {t("volver")}
         </button>
       </div>
