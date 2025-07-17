@@ -33,6 +33,10 @@
   white-space: nowrap;
 }
 
+.list li a {
+  text-decoration: none;
+}
+
 .active {
   font-weight: bold;
   color: var(--accent);

@@ -37,8 +37,8 @@ export default function Graficos1() {
   } = useReportData(params);
 
   // totales/métricas
-  const totalI   = byDate.length ? byDate.at(-1).ingresos : 0;
-  const totalE   = byDate.length ? byDate.at(-1).egresos  : 0;
+  const totalI   = byDate.reduce((acc, d) => acc + d.ingresos, 0);
+  const totalE   = byDate.reduce((acc, d) => acc + d.egresos, 0);
   const utilidad = totalI - totalE;
   const indice   = totalE > 0 ? utilidad / totalE : 0;
   const margen   = totalI > 0 ? (utilidad / totalI) * 100 : 0;
@@ -69,7 +69,7 @@ export default function Graficos1() {
   const barData = useMemo(
     () =>
       byDate.map(d => ({
-        name: formatDDMMYYYY(d.name),
+        name: d.name, // ← Usa directamente el string local
         ingresos: d.ingresos,
         egresos: d.egresos
       })),

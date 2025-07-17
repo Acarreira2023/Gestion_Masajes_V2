@@ -68,34 +68,54 @@ export function useReportData(params = {}) {
     const raw = {};
     const addToRaw = (dObj, source) => {
       const d = toDate(source.fecha);
-      const key = d.toISOString().slice(0,10);
-      raw[key] = raw[key] || { ingresos:0, egresos:0 };
+      const key = d.toLocaleDateString("es-AR");
+      raw[key] = raw[key] || { ingresos: 0, egresos: 0 };
       raw[key][dObj] += getVal(source);
     };
     filtI.forEach(i => addToRaw("ingresos", i));
     filtE.forEach(e => addToRaw("egresos", e));
 
-    const days = Object.entries(raw)
-      .map(([name, vals]) => ({ name, ...vals }))
-      .sort((a,b) => new Date(a.name) - new Date(b.name));
+    // Genera todos los días del rango
+    const allDays = [];
+    let d = new Date(from);
+    d.setHours(0,0,0,0);
+    const end = new Date(to);
+    end.setHours(0,0,0,0);
+    while (d <= end) {
+      allDays.push(d.toLocaleDateString("es-AR"));
+      d = addDays(d, 1);
+    }
+
+    // Completa los días faltantes con ceros
+    const days = allDays.map(name => ({
+      name,
+      ingresos: raw[name]?.ingresos || 0,
+      egresos: raw[name]?.egresos || 0
+    }));
+
+    // Ordena por fecha
+    days.sort((a, b) => {
+      const da = new Date(a.name.split("/").reverse().join("-"));
+      const db = new Date(b.name.split("/").reverse().join("-"));
+      return da - db;
+    });
 
     let cumI = 0, cumE = 0;
     const byDate = days.map(({ name, ingresos, egresos }) => {
       cumI += ingresos;
       cumE += egresos;
-      return { name, ingresos: cumI, egresos: cumE };
+      return { name, ingresos, egresos };
     });
 
     // función para armar tortas
     const mkPie = (arr, keys, field) =>
-      keys
-        .map(k => ({
-          name:  k,
-          value: arr
-            .filter(item => item[field] === k)
-            .reduce((s, it) => s + getVal(it), 0)
-        }))
-        .filter(x => x.value > 0);
+      keys.map(k => ({
+        name: k,
+        value: arr
+          .filter(item => (item[field] || "").toUpperCase() === k.toUpperCase())
+          .reduce((s, it) => s + getVal(it), 0)
+      }))
+      .filter(x => x.value > 0);
 
     const ingresosByTipo      = mkPie(filtI, tiposIngreso,      "tipo");
     const ingresosByCategoria = mkPie(filtI, categoriasIngreso, "categoria");

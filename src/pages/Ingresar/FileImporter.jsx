@@ -93,9 +93,16 @@ export default function FileImporter({ tipo, onBack }) {
               if (v !== "" && v != null) obj[h] = v;
             });
             // Fecha → Timestamp (medianoche local)
-            if (obj.fecha != null) {
+            /*if (obj.fecha != null) {
               const dt = parseFileDate(obj.fecha);
               if (dt) obj.fecha = Timestamp.fromDate(dt);
+            }*/
+           if (obj.fecha != null) {
+              const dt = parseFileDate(obj.fecha);
+              if (dt) {
+                dt.setHours(0, 0, 0, 0); // Fuerza medianoche local
+                obj.fecha = Timestamp.fromDate(dt);
+              }
             }
             // Total → Number
             if (obj.total != null) {

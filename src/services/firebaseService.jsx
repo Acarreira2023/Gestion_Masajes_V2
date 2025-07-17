@@ -21,11 +21,25 @@ const auth = getAuth(app);
 /**
  * Normaliza `fecha` a Firestore Timestamp.
  */
-const normalizeFecha = (fecha) => {
+/*const normalizeFecha = (fecha) => {
   if (!fecha) return fecha;
   if (fecha instanceof Timestamp) return fecha;
   if (fecha instanceof Date) return Timestamp.fromDate(fecha);
   const dt = new Date(fecha);
+  return !isNaN(dt) ? Timestamp.fromDate(dt) : fecha;
+};*/
+
+const normalizeFecha = (fecha) => {
+  if (!fecha) return fecha;
+  if (fecha instanceof Timestamp) return fecha;
+  let dt;
+  if (fecha instanceof Date) {
+    dt = new Date(fecha);
+  } else {
+    dt = new Date(fecha);
+  }
+  // Fuerza la hora a medianoche local
+  dt.setHours(0, 0, 0, 0);
   return !isNaN(dt) ? Timestamp.fromDate(dt) : fecha;
 };
 
