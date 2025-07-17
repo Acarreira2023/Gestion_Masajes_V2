@@ -6,7 +6,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
+
 
 import "./services/firebaseService";
 console.log("▶️ index.js cargado");
@@ -24,9 +25,9 @@ root.render(
     <ErrorBoundary>
       <IdiomaProvider>
         <AuthProvider>
-          <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Router basename={process.env.PUBLIC_URL}>
             <App />
-          </BrowserRouter>
+          </Router>
         </AuthProvider>
       </IdiomaProvider>
     </ErrorBoundary>
