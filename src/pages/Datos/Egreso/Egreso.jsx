@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { endOfMonth } from "date-fns";
 import { FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import styles from "../Ingreso/Ingreso.module.css";
+import styles from "../Egreso/Egreso.module.css";
 
 export default function Egreso() {
   const { t } = useIdioma();
@@ -42,6 +42,7 @@ export default function Egreso() {
     categoria: "",
     tipo: "",
     proveedor: "",
+    descripcion: "",
     total: ""
   });
 
@@ -49,23 +50,6 @@ export default function Egreso() {
   const currentYear = new Date().getFullYear();
   const years       = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-  /*// convierte "YYYY-MM-DD" a Timestamp (fecha sin hora)
-  const dateStrToTs = str => {
-    const [y, m, d] = str.split("-").map(Number);
-    // crea Date a medianoche local
-    const dt = new Date(y, m - 1, d, 0, 0, 0);
-    return Timestamp.fromDate(dt);
-  };
-
-  // normaliza raw Timestamp o string a Date solo día
-  const normalizeDate = raw => {
-    const dt = raw.toDate
-      ? raw.toDate()
-      : raw.seconds
-        ? new Date(raw.seconds * 1000)
-        : new Date(raw);
-    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 0, 0, 0);
-  };*/
 
   // convierte "YYYY-MM-DD" a Timestamp en UTC-3 sin corrimiento
   const dateStrToTsUTC3 = str => {
@@ -139,36 +123,6 @@ export default function Egreso() {
     return q;
   };
 
-  // carga datos al cambiar filtros
-  /*useEffect(() => {
-    async function load() {
-      setLoading(true);
-      setError(null);
-      try {
-        const snap = await getDocs(buildQuery());
-        const list = snap.docs.map(d => {
-          const data = d.data();
-          const day  = normalizeDate(data.fecha);
-          return {
-            id:        data.id || d.id,
-            fecha:     day.toLocaleDateString(),
-            categoria: data.categoria || "",
-            tipo:      data.tipo      || "",
-            proveedor: data.proveedor || "",
-            total:     data.total     || 0
-          };
-        });
-        setEgresos(list);
-        setSelEg(new Set());
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, [filterParams]);*/
     useEffect(() => {
     async function load() {
       try {
@@ -190,6 +144,7 @@ export default function Egreso() {
             categoria: data.categoria || "",
             tipo:      data.tipo      || "",
             proveedor: data.proveedor || "",
+            descripcion: data.descripcion || "",
             total:     data.total     || 0
           };
         });
@@ -254,12 +209,13 @@ export default function Egreso() {
       categoria: row.categoria,
       tipo:      row.tipo,
       proveedor: row.proveedor,
+      descripcion: row.descripcion,
       total:     row.total.toString()
     });
   };
   const cancelEdit = () => {
     setEditingId(null);
-    setEditData({ categoria: "", tipo: "", proveedor: "", total: "" });
+    setEditData({ categoria: "", tipo: "", proveedor: "", descripcion: "", total: "" });
   };
   const saveEdit   = async id => {
     const ref = doc(db, "egresos", id);
@@ -267,6 +223,7 @@ export default function Egreso() {
       categoria: editData.categoria,
       tipo:      editData.tipo,
       proveedor: editData.proveedor,
+      descripcion: editData.descripcion,
       total:     Number(editData.total)
     });
     setEgresos(prev =>
@@ -407,6 +364,7 @@ export default function Egreso() {
             <th>{t("categoria")}</th>
             <th>{t("tipo")}</th>
             <th>{t("proveedor")}</th>
+            <th>{t("descripcion")}</th>
             <th>{t("total")}</th>
             <th>{t("acciones")}</th>
           </tr>
@@ -459,6 +417,19 @@ export default function Egreso() {
                   />
                 ) : (
                   r.proveedor
+                )}
+              </td>
+              <td>
+                {editingId === r.id ? (
+                  <input
+                    className={styles.editInput}
+                    value={editData.descripcion}
+                    onChange={e =>
+                      setEditData(d => ({ ...d, descripcion: e.target.value }))
+                    }
+                  />
+                ) : (
+                  r.descripcion
                 )}
               </td>
               <td>

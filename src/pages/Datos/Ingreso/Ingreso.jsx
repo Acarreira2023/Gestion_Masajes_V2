@@ -111,6 +111,8 @@ export default function Ingreso() {
             fecha:     date.toLocaleDateString(),
             categoria: data.categoria ?? "",
             tipo:      data.tipo ?? "",
+            cliente:   data.cliente ?? "",
+            descripcion: data.descripcion ?? "",
             total:     data.total ?? 0
           };
         });
@@ -170,18 +172,22 @@ export default function Ingreso() {
     setEditData({
       categoria: row.categoria,
       tipo:      row.tipo,
+      cliente:   row.cliente,
+      descripcion: row.descripcion,
       total:     row.total.toString()
     });
   };
   const cancelEdit = () => {
     setEditingId(null);
-    setEditData({ categoria: "", tipo: "", total: "" });
+    setEditData({ categoria: "", tipo: "", cliente: "", descripcion: "", total: "" });
   };
   const saveEdit = async id => {
     const ref = doc(db, "ingresos", id);
     await updateDoc(ref, {
       categoria: editData.categoria,
       tipo:      editData.tipo,
+      cliente:   editData.cliente,
+      descripcion: editData.descripcion,
       total:     Number(editData.total)
     });
     setIngresos(prev =>
@@ -306,6 +312,8 @@ export default function Ingreso() {
             <th>{t("fecha")}</th>
             <th>{t("categoria")}</th>
             <th>{t("tipo")}</th>
+            <th>{t("cliente")}</th>
+            <th>{t("descripcion")}</th>
             <th>{t("total")}</th>
             <th>{t("acciones")}</th>
           </tr>
@@ -345,6 +353,32 @@ export default function Ingreso() {
                   />
                 ) : (
                   row.tipo
+                )}
+              </td>
+              <td>
+                {editingId === row.id ? (
+                  <input
+                    className={styles.editInput}
+                    value={editData.cliente}
+                    onChange={e =>
+                      setEditData(prev => ({ ...prev, cliente: e.target.value }))
+                    }
+                  />
+                ) : (
+                  row.cliente
+                )}
+              </td>
+              <td>
+                {editingId === row.id ? (
+                  <input
+                    className={styles.editInput}
+                    value={editData.descripcion}
+                    onChange={e =>
+                      setEditData(prev => ({ ...prev, descripcion: e.target.value }))
+                    }
+                  />
+                ) : (
+                  row.descripcion
                 )}
               </td>
               <td>

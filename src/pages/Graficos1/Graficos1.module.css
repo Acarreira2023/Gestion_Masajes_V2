@@ -175,7 +175,7 @@
 }
 
 .pieBlock {
-  flex: 1 1 45%;
+  flex: 1 1 40%;
   min-width: 300px;
   min-height: 350px;
   background-color: var(--chart-bg);

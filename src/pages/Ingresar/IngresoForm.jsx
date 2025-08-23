@@ -25,6 +25,7 @@ export default function IngresoForm({ onBack }) {
     cantidad: 1,
     numeroDoc: "",
     descripcion: "",
+    cliente: "",
     total: 0
   });
 
@@ -175,6 +176,18 @@ export default function IngresoForm({ onBack }) {
           value={f.cantidad}
           onChange={handleChange}
           required
+        />
+      </div>
+
+      {/* Cliente */}
+      <div className={styles.field}>
+        <label htmlFor="cliente">{t("cliente")}</label>
+        <input
+          type="text"
+          id="cliente"
+          name="cliente"
+          value={f.cliente}
+          onChange={handleChange}
         />
       </div>
 

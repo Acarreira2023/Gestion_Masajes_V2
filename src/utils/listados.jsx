@@ -43,6 +43,7 @@ export const tiposEgreso = [
   "VEHICULO",
   "SUCURSALES",
   "JUBILACION",
+  "GASTOS",
   "OTROS"
 ];
 export const mediosEgreso = [
@@ -59,7 +60,10 @@ export const categoriasEgreso = [
   "SUELDOS",
   "PRODUCTOS DE LIMPIEZA",
   "PRODUCTOS DE MASAJE",
-  "VEHÍCULO",
+  "VEHICULO",
   "SEGUROS",
+  "SUPERMERCADO",
+  "SALIDAS",
+  "REGALOS",
   "OTROS"
 ];
